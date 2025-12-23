@@ -1,4 +1,4 @@
-import { CartItem } from './cart_types';
+import { CartItem } from './carts';
 
 export type OrderStatus = 'placed' | 'confirmed' | 'preparing' | 'out_for_delivery' | 'delivered';
 

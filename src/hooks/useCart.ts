@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { CartItem } from '../types/cart_types';
-import { MenuItem } from '../types/restaurant_types';
+import { CartItem } from '../types/carts';
+import { MenuItem } from '../types/restaurants';
 import { calculateCartTotal, getCartItemCount } from '../utils/helper';
 
 export const useCart = () => {

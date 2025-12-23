@@ -1,4 +1,4 @@
-import { MenuItem } from './restaurant_types';
+import { MenuItem } from './restaurants';
 
 export interface CartItem extends MenuItem {
   quantity: number;

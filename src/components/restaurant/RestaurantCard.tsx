@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
-import { Restaurant } from '../../types/restaurant_types';
+import { Restaurant } from '../../types/restaurants';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;

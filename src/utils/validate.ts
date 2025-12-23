@@ -1,4 +1,4 @@
-import { CartItem } from '../types/cart_types';
+import { CartItem } from '../types/carts';
 
 export const validateCartItem = (item: CartItem): boolean => {
   return item.quantity > 0 && item.price > 0;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Restaurant } from '../../types/restaurant_types';
+import { Restaurant } from '../../types/restaurants';
 import { RestaurantService } from '../../services/restaurantService';
 import { RestaurantCard } from './RestaurantCard';
 

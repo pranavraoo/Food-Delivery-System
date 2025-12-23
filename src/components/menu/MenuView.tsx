@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { Restaurant } from '../../types/restaurant_types';
-import { MenuItem as MenuItemType } from '../../types/restaurant_types';
+import { Restaurant } from '../../types/restaurants';
+import { MenuItem as MenuItemType } from '../../types/restaurants';
 import { RestaurantService } from '../../services/restaurantService';
 import { MenuItem } from './MenuItem';
 

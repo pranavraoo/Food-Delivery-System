@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
-import { MenuItem as MenuItemType } from '../../types/restaurant_types';
+import { MenuItem as MenuItemType } from '../../types/restaurants';
 import { formatPrice } from '../../utils/helper';
 
 interface MenuItemProps {

@@ -1,5 +1,5 @@
-import { Order, OrderStatus } from '../types/order_types';
-import { CartItem } from '../types/cart_types';
+import { Order, OrderStatus } from '../types/orders';
+import { CartItem } from '../types/carts';
 import { generateOrderId, calculateCartTotal } from '../utils/helper';
 
 export class OrderService {

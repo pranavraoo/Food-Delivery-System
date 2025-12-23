@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Order } from '../types/order_types';
+import { Order } from '../types/orders';
 import { OrderService } from '../services/orderService';
 import { APP_CONFIG } from '../config/app_config';
 

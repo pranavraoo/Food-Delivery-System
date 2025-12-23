@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Order } from '../types/order_types';
+import { Order } from '../types/orders';
 
 export const useOrder = () => {
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
