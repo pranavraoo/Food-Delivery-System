@@ -1,17 +1,84 @@
+/* ---------- BASE BUTTON ---------- */
 .btn {
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;                   /* font-semibold */
+  border-radius: 8px;                 /* rounded-lg */
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  transition: 
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
 }
 
+.btn:hover:not(:disabled) {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* hover:shadow-lg */
+}
+
+/* ---------- VARIANTS ---------- */
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: #ea580c;          /* orange-600 */
+  color: #ffffff;
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--border);
+.btn-primary:hover:not(:disabled) {
+  background-color: #c2410c;          /* orange-700 */
+}
+
+.btn-secondary {
+  background-color: #4b5563;          /* gray-600 */
+  color: #ffffff;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #374151;          /* gray-700 */
+}
+
+.btn-success {
+  background-color: #16a34a;          /* green-600 */
+  color: #ffffff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #15803d;          /* green-700 */
+}
+
+.btn-danger {
+  background-color: #dc2626;          /* red-600 */
+  color: #ffffff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #b91c1c;          /* red-700 */
+}
+
+/* ---------- SIZES ---------- */
+.btn-sm {
+  padding: 6px 12px;                  /* px-3 py-1.5 */
+  font-size: 14px;
+}
+
+.btn-md {
+  padding: 8px 16px;                  /* px-4 py-2 */
+  font-size: 16px;
+}
+
+.btn-lg {
+  padding: 12px 24px;                 /* px-6 py-3 */
+  font-size: 18px;
+}
+
+/* ---------- WIDTH ---------- */
+.btn-full {
+  width: 100%;
+}
+
+/* ---------- DISABLED ---------- */
+.btn:disabled {
+  opacity: 0.5;                       /* opacity-50 */
+  cursor: not-allowed;
+  box-shadow: none;
 }

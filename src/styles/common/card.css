@@ -1,6 +1,28 @@
+/* ---------- BASE CARD ---------- */
 .card {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  border: 1px solid var(--border);
+  background-color: #ffffff;         /* bg-white */
+  border: 1px solid #e5e7eb;          /* border-gray-200 */
+  border-radius: 12px;                /* rounded-xl */
+  padding: 24px;                      /* p-6 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+
+/* ---------- HOVERABLE CARD ---------- */
+.card-hover {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15); /* hover:shadow-xl */
+  transform: scale(1.02);                     /* hover:scale-[1.02] */
+  border-color: #fdba74;                      /* hover:border-orange-300 */
+}
+
+/* ---------- CLICKABLE ---------- */
+.card-clickable {
+  cursor: pointer;
 }

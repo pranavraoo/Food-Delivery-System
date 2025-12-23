@@ -1,7 +1,77 @@
+/* ---------- HEADER WRAPPER ---------- */
 .header {
-  background: var(--white);
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  font-size: 20px;
+  background-color: #ffffff;                 /* bg-white */
+  position: sticky;                          /* sticky */
+  top: 0;
+  z-index: 50;                               /* z-50 */
+  border-bottom: 1px solid #e5e7eb;          /* border-gray-200 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* shadow-md */
+}
+
+/* ---------- HEADER CONTAINER ---------- */
+.header-container {
+  max-width: 1280px;                         /* max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;                             /* py-4 px-4 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding-left: 24px;                      /* sm:px-6 */
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container {
+    padding-left: 32px;                      /* lg:px-8 */
+    padding-right: 32px;
+  }
+}
+
+/* ---------- LOGO ---------- */
+.header-logo {
+  font-size: 24px;                           /* text-2xl */
+  font-weight: 700;                          /* font-bold */
+  color: #ea580c;                            /* text-orange-600 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+
+.header-logo:hover {
+  color: #c2410c;                            /* hover:text-orange-700 */
+}
+
+.header-logo-icon {
+  font-size: 30px;                           /* text-3xl */
+}
+
+/* ---------- CART BUTTON ---------- */
+.header-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;                                  /* gap-2 */
+  padding: 8px 16px;                         /* px-4 py-2 */
+  background-color: #ea580c;                 /* bg-orange-600 */
+  color: #ffffff;
+  border-radius: 8px;                        /* rounded-lg */
+  border: none;
+  cursor: pointer;
   font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* shadow-md */
+}
+
+.header-cart-btn:hover {
+  background-color: #c2410c;                 /* hover:bg-orange-700 */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* hover:shadow-lg */
 }
