@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Restaurant, MenuItem as MenuItemType } from '../../types/restaurants';
 import { RestaurantService } from '../../services/restaurantService';
 import { MenuItem } from './MenuItem';
 import '../../styles/menu/menu-view.css';
-
 
 interface MenuViewProps {
   restaurant: Restaurant;
@@ -21,7 +20,48 @@ export const MenuView: React.FC<MenuViewProps> = ({
   onViewCart,
   cartItemCount,
 }) => {
-  const categories = RestaurantService.getMenuCategories(restaurant);
+  const [menu, setMenu] = useState<MenuItemType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [foodFilter, setFoodFilter] = useState<'all' | 'veg' | 'non-veg'>('all');
+  const [sortBy, setSortBy] = useState<'none' | 'price-low' | 'price-high' | 'name'>('none');
+
+  useEffect(() => {
+    setLoading(true);
+
+    // ✅ IMPORTANT FIX: use cuisine, NOT name
+    RestaurantService.getMenuByRestaurant(restaurant.cuisine)
+      .then(setMenu)
+      .finally(() => setLoading(false));
+  }, [restaurant]);
+
+  const categories = RestaurantService.getMenuCategories(menu);
+
+  const applyFiltersAndSort = (items: MenuItemType[]) => {
+    let filtered = [...items];
+
+    if (foodFilter === 'veg') {
+      filtered = filtered.filter(item => item.isVeg);
+    }
+
+    if (foodFilter === 'non-veg') {
+      filtered = filtered.filter(item => !item.isVeg);
+    }
+
+    if (sortBy === 'price-low') {
+      filtered.sort((a, b) => a.price - b.price);
+    }
+
+    if (sortBy === 'price-high') {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    if (sortBy === 'name') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    return filtered;
+  };
 
   return (
     <div className="menu-view-container">
@@ -29,51 +69,88 @@ export const MenuView: React.FC<MenuViewProps> = ({
         ← Back to Restaurants
       </button>
 
-      
       <div className="menu-header">
         <div>
           <h1 className="menu-title">{restaurant.name}</h1>
           <div className="menu-meta">
             <p>{restaurant.cuisine}</p>
             <span className="menu-meta-separator">•</span>
-            <div className="flex items-center gap-1">
-              <span className="text-yellow-500">⭐</span>
-              <span className="font-semibold text-gray-700">
-                {restaurant.rating}
-              </span>
-            </div>
+            <span>⭐ {restaurant.rating}</span>
             <span className="menu-meta-separator">•</span>
             <span>{restaurant.deliveryTime}</span>
           </div>
         </div>
 
         {cartItemCount > 0 && (
-        <button onClick={onViewCart} className="menu-cart-btn">
-          <ShoppingCart size={20} />
-          View Cart ({cartItemCount})
+          <button onClick={onViewCart} className="menu-cart-btn">
+            <ShoppingCart size={20} />
+            View Cart ({cartItemCount})
+          </button>
+        )}
+      </div>
+
+      {/* Filters */}
+      <div className="menu-filters">
+        <button
+          className={`menu-filter-btn ${foodFilter === 'all' ? 'active' : ''}`}
+          onClick={() => setFoodFilter('all')}
+        >
+          All
         </button>
+
+        <button
+          className={`menu-filter-btn veg ${foodFilter === 'veg' ? 'active' : ''}`}
+          onClick={() => setFoodFilter('veg')}
+        >
+          Veg
+        </button>
+
+        <button
+          className={`menu-filter-btn non-veg ${foodFilter === 'non-veg' ? 'active' : ''}`}
+          onClick={() => setFoodFilter('non-veg')}
+        >
+          Non-Veg
+        </button>
+
+        <select
+          className="menu-sort-select"
+          onChange={e => setSortBy(e.target.value as any)}
+        >
+          <option value="none">Sort</option>
+          <option value="price-low">Price: Low → High</option>
+          <option value="price-high">Price: High → Low</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+
+
+      {loading ? (
+        <p>Loading menu...</p>
+      ) : (
+        categories.map(category => {
+          const items = applyFiltersAndSort(
+            menu.filter(item => item.category === category)
+          );
+
+          if (items.length === 0) return null;
+
+          return (
+            <div key={category} className="menu-category">
+              <h2 className="menu-category-title">{category}</h2>
+
+              <div className="menu-items-grid">
+                {items.map(item => (
+                  <MenuItem
+                    key={item.id}
+                    item={item}
+                    onAdd={() => onAddToCart(item)}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })
       )}
-    </div>
-
-
-      {categories.map(category => (
-        <div key={category} className="menu-category">
-          <h2 className="menu-category-title">{category}</h2>
-
-          <div className="menu-items-grid">
-            {restaurant.menu
-              .filter(item => item.category === category)
-              .map(item => (
-                <MenuItem
-                  key={item.id}
-                  item={item}
-                  onAdd={() => onAddToCart(item)}
-                />
-              ))}
-          </div>
-        </div>
-
-      ))}
     </div>
   );
 };

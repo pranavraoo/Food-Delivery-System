@@ -20,8 +20,13 @@ export const CartItem: React.FC<CartItemProps> = ({
     <div className="cart-item-card">
       <div className="cart-item-row">
         <div className="cart-item-left">
-          <div className="cart-item-image">{item.image}</div>
-
+          <div className="cart-item-image">
+            <img
+              src={item.image}
+              alt={item.name}
+              loading="lazy"
+            />
+          </div>
           <div className="cart-item-info">
             <h3 className="cart-item-name">{item.name}</h3>
             <p className="cart-item-price-each">

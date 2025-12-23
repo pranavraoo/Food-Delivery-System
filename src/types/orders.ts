@@ -9,7 +9,8 @@ export interface Order {
   items: CartItem[];
   total: number;
   status: OrderStatus;
-  timestamp: Date;
+  createdAt: number;
+  etaEndTime: number;
 }
 
 export interface OrderStatusConfig {

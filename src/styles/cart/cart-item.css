@@ -23,9 +23,13 @@
   min-width: 0;
 }
 
-.cart-item-image {
-  font-size: 36px;                  /* text-4xl */
+.cart-item-image img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
 }
+
 
 .cart-item-info {
   flex: 1;

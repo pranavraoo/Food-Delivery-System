@@ -15,7 +15,13 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, onAdd }) => {
     <div className="menu-item-card">
       <div className="menu-item-row">
         <div className="menu-item-left">
-          <div className="menu-item-image">{item.image}</div>
+          <div className="menu-item-image">
+            <img
+              src={item.image}
+              alt={item.name}
+              loading="lazy"
+            />
+          </div>
 
           <div className="menu-item-info">
             <div className="menu-item-header">

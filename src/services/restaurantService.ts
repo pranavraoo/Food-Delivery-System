@@ -1,67 +1,153 @@
-import { Restaurant } from '../types/restaurants';
+import { Restaurant, MenuItem } from '../types/restaurants';
 
-const mockRestaurants: Restaurant[] = [
-  {
-    id: 'r1',
-    name: 'Spice Garden',
-    cuisine: 'Indian',
-    rating: 4.5,
-    deliveryTime: '30-40 min',
-    menu: [
-      { id: 'm1', name: 'Paneer Tikka Masala', description: 'Cottage cheese in rich tomato gravy', price: 280, category: 'Main Course', image: '🍛', isVeg: true },
-      { id: 'm2', name: 'Butter Chicken', description: 'Tender chicken in creamy butter sauce', price: 320, category: 'Main Course', image: '🍗', isVeg: false },
-      { id: 'm3', name: 'Garlic Naan', description: 'Fresh bread with garlic', price: 60, category: 'Breads', image: '🥖', isVeg: true },
-      { id: 'm4', name: 'Dal Makhani', description: 'Creamy black lentils', price: 220, category: 'Main Course', image: '🍲', isVeg: true },
-      { id: 'm5', name: 'Chicken Biryani', description: 'Aromatic rice with spiced chicken', price: 350, category: 'Main Course', image: '🍚', isVeg: false },
-    ]
-  },
-  {
-    id: 'r2',
-    name: 'Pizza Palace',
-    cuisine: 'Italian',
-    rating: 4.3,
-    deliveryTime: '25-35 min',
-    menu: [
-      { id: 'm6', name: 'Margherita Pizza', description: 'Classic tomato and mozzarella', price: 350, category: 'Pizza', image: '🍕', isVeg: true },
-      { id: 'm7', name: 'Pepperoni Pizza', description: 'Spicy pepperoni with cheese', price: 420, category: 'Pizza', image: '🍕', isVeg: false },
-      { id: 'm8', name: 'Pasta Alfredo', description: 'Creamy white sauce pasta', price: 280, category: 'Pasta', image: '🍝', isVeg: true },
-      { id: 'm9', name: 'Garlic Bread', description: 'Toasted bread with garlic butter', price: 120, category: 'Sides', image: '🥖', isVeg: true },
-      { id: 'm10', name: 'Caesar Salad', description: 'Fresh romaine with caesar dressing', price: 180, category: 'Salads', image: '🥗', isVeg: true },
-    ]
-  },
-  {
-    id: 'r3',
-    name: 'Burger Hub',
-    cuisine: 'American',
-    rating: 4.2,
-    deliveryTime: '20-30 min',
-    menu: [
-      { id: 'm11', name: 'Classic Burger', description: 'Beef patty with lettuce and tomato', price: 180, category: 'Burgers', image: '🍔', isVeg: false },
-      { id: 'm12', name: 'Veggie Burger', description: 'Plant-based patty with veggies', price: 160, category: 'Burgers', image: '🍔', isVeg: true },
-      { id: 'm13', name: 'French Fries', description: 'Crispy golden fries', price: 100, category: 'Sides', image: '🍟', isVeg: true },
-      { id: 'm14', name: 'Chicken Wings', description: 'Spicy buffalo wings', price: 240, category: 'Sides', image: '🍗', isVeg: false },
-      { id: 'm15', name: 'Milkshake', description: 'Creamy vanilla milkshake', price: 120, category: 'Beverages', image: '🥤', isVeg: true },
-    ]
-  }
+const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
+
+/* ---------- Restaurant name mapping (cloud kitchens) ---------- */
+const RESTAURANT_NAME_MAP: Record<string, string> = {
+  Beef: 'Spice Route',
+  Chicken: 'Grill Nation',
+  Dessert: 'Sweet Tooth',
+  Lamb: 'Royal Feast',
+  Vegan: 'Green Bowl',
+  Vegetarian: 'Pure Veg Kitchen',
+  Miscellaneous: 'House Specials',
+  Pasta: 'Italiano',
+  Pork: 'Smokey Grill',
+  Seafood: 'Ocean Feast',
+  Side: 'Snack Shack',
+  Starter: 'Appetizer Hub',
+  Breakfast: 'Morning Bites',
+  Goat: 'Nawabi Kitchen',
+};
+
+/* ---------- Delivery time modeling ---------- */
+const DELIVERY_TIME_MAP: Record<string, number> = {
+  Beef: 40,
+  Chicken: 35,
+  Seafood: 45,
+  Lamb: 45,
+  Pork: 40,
+  Goat: 50,
+  Pasta: 30,
+  Vegetarian: 25,
+  Vegan: 25,
+  Dessert: 20,
+  Breakfast: 20,
+  Side: 15,
+  Starter: 20,
+  Miscellaneous: 30,
+};
+
+function getDeliveryTime(category: string): string {
+  const base = DELIVERY_TIME_MAP[category] ?? 30;
+  const variance = Math.floor(Math.random() * 6); // 0–5 min
+  return `${base + variance}-${base + variance + 10} min`;
+}
+
+/* ---------- Veg / Non-Veg inference ---------- */
+const NON_VEG_KEYWORDS = [
+  'chicken',
+  'beef',
+  'pork',
+  'lamb',
+  'goat',
+  'fish',
+  'seafood',
+  'shrimp',
+  'prawn',
+  'egg',
+  'bacon',
 ];
 
+function inferIsVeg(category: string, mealName: string): boolean {
+  const cat = category.toLowerCase();
+
+  // PRIMARY: category-based decision
+  if (cat === 'vegetarian' || cat === 'vegan') return true;
+
+  if (
+    cat === 'beef' ||
+    cat === 'chicken' ||
+    cat === 'lamb' ||
+    cat === 'pork' ||
+    cat === 'goat' ||
+    cat === 'seafood'
+  ) {
+    return false;
+  }
+
+  // SECONDARY: name-based fallback
+  const name = mealName.toLowerCase();
+  return !NON_VEG_KEYWORDS.some(word => name.includes(word));
+}
+
 export class RestaurantService {
+  /* ---------- Restaurants ---------- */
   static async getAllRestaurants(): Promise<Restaurant[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(mockRestaurants), 100);
-    });
+    const res = await fetch(`${BASE_URL}/categories.php`);
+    const data = await res.json();
+
+    return data.categories.map((cat: any) => ({
+      id: cat.idCategory,
+      name:
+        RESTAURANT_NAME_MAP[cat.strCategory] ??
+        `${cat.strCategory} Kitchen`,
+      cuisine: cat.strCategory,
+      rating: Number((Math.random() * 1.5 + 3.5).toFixed(1)),
+      deliveryTime: getDeliveryTime(cat.strCategory),
+      menu: [],
+      image: cat.strCategoryThumb,
+    }));
   }
 
-  static async getRestaurantById(id: string): Promise<Restaurant | undefined> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const restaurant = mockRestaurants.find(r => r.id === id);
-        resolve(restaurant);
-      }, 100);
-    });
+  static async getRestaurantById(
+    id: string
+  ): Promise<Restaurant | undefined> {
+    const res = await fetch(`${BASE_URL}/categories.php`);
+    const data = await res.json();
+
+    const category = data.categories.find(
+      (cat: any) => cat.idCategory === id
+    );
+
+    if (!category) return undefined;
+
+    return {
+      id: category.idCategory,
+      name:
+        RESTAURANT_NAME_MAP[category.strCategory] ??
+        `${category.strCategory} Kitchen`,
+      cuisine: category.strCategory,
+      rating: Number((Math.random() * 1.5 + 3.5).toFixed(1)),
+      deliveryTime: getDeliveryTime(category.strCategory),
+      menu: [],
+      image: category.strCategoryThumb,
+    };
   }
 
-  static getMenuCategories(restaurant: Restaurant): string[] {
-    return Array.from(new Set(restaurant.menu.map(item => item.category)));
+  /* ---------- Menu ---------- */
+  static async getMenuByRestaurant(
+    categoryName: string
+  ): Promise<MenuItem[]> {
+    const res = await fetch(
+      `${BASE_URL}/filter.php?c=${encodeURIComponent(categoryName)}`
+    );
+    const data = await res.json();
+
+    if (!data.meals) return [];
+
+    return data.meals.map((meal: any) => ({
+      id: meal.idMeal,
+      name: meal.strMeal,
+      description: 'Delicious meal prepared fresh',
+      price: Math.floor(Math.random() * 200 + 150),
+      category: categoryName,
+      image: meal.strMealThumb,
+      isVeg: inferIsVeg(categoryName, meal.strMeal),
+    }));
+  }
+
+  static getMenuCategories(menu: MenuItem[]): string[] {
+    return Array.from(new Set(menu.map(item => item.category)));
   }
 }

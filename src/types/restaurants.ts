@@ -15,4 +15,5 @@ export interface Restaurant {
   rating: number;
   deliveryTime: string;
   menu: MenuItem[];
+  image: string;
 }

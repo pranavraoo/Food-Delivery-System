@@ -56,7 +56,8 @@ function App() {
     const order = OrderService.createOrder(
       selectedRestaurant.id,
       selectedRestaurant.name,
-      cart
+      cart,
+      selectedRestaurant.deliveryTime
     );
     
     createOrder(order);

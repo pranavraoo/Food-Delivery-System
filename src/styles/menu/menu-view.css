@@ -108,3 +108,56 @@
   gap: 16px;                      /* gap-4 */
   margin-top: 16px;               /* mt-4 */
 }
+
+.menu-sort-select {
+  margin-left: auto;              /* push to right */
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;      /* border-gray-300 */
+  background-color: #ffffff;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+}
+
+.menu-filter-btn {
+  padding: 6px 14px;
+  border-radius: 9999px;          /* pill style */
+  border: 1px solid #e5e7eb;      /* border-gray-200 */
+  background-color: #ffffff;
+  color: #374151;                 /* text-gray-700 */
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.menu-filter-btn:hover {
+  background-color: #f9fafb;      /* bg-gray-50 */
+}
+
+/* Active states */
+.menu-filter-btn.active {
+  background-color: #16a34a;      /* green-600 */
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+.menu-filter-btn.veg.active {
+  background-color: #16a34a;      /* green */
+}
+
+.menu-filter-btn.non-veg.active {
+  background-color: #dc2626;      /* red */
+}
+
+/* ---------- FILTERS BAR ---------- */
+.menu-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;            /* spacing before categories */
+  flex-wrap: wrap;
+}

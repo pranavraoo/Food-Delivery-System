@@ -8,17 +8,17 @@ export const useOrderStatus = (
   onStatusUpdate: (status: Order['status']) => void
 ) => {
   useEffect(() => {
-    if (!order || OrderService.isOrderComplete(order.status)) {
-      return;
-    }
+    if (!order) return;
 
-    const timer = setTimeout(() => {
-      const nextStatus = OrderService.getNextStatus(order.status);
-      if (nextStatus) {
-        onStatusUpdate(nextStatus);
+    const interval = setInterval(() => {
+      const resolvedStatus =
+        OrderService.resolveStatusFromTime(order);
+
+      if (resolvedStatus !== order.status) {
+        onStatusUpdate(resolvedStatus);
       }
     }, APP_CONFIG.orderStatusProgressionInterval);
 
-    return () => clearTimeout(timer);
-  }, [order?.status, onStatusUpdate]);
+    return () => clearInterval(interval);
+  }, [order, onStatusUpdate]);
 };

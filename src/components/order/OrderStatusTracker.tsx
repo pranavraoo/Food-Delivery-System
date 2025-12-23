@@ -23,44 +23,44 @@ export const OrderStatusTracker: React.FC<OrderStatusTrackerProps> = ({
   const currentIndex = statuses.indexOf(currentStatus);
 
   return (
-    <div className="order-status-wrapper">
-  <div className="order-status-container">
-    {statuses.map((status, index) => {
-      const config = ORDER_STATUS_CONFIG[status];
-      const Icon = iconMap[config.icon as keyof typeof iconMap];
-      const isActive = index <= currentIndex;
-      const isCompleted = index < currentIndex;
+  <div className="order-status-wrapper">
+    <div className="order-status-container">
+      {statuses.map((status, index) => {
+        const config = ORDER_STATUS_CONFIG[status];
+        const Icon = iconMap[config.icon as keyof typeof iconMap];
+        const isActive = index <= currentIndex;
+        const isCompleted = index < currentIndex;
 
-      return (
-        <div key={status} className="order-status-step">
-          {index < statuses.length - 1 && (
+        return (
+          <div key={status} className="order-status-step">
             <div
-              className={`order-status-line ${
-                isCompleted ? 'completed' : 'pending'
+              className={`order-status-icon ${
+                isActive ? 'active' : 'inactive'
               }`}
-            />
-          )}
+            >
+              <Icon size={22} />
+            </div>
 
-          <div
-            className={`order-status-icon ${
-              isActive ? 'active' : 'inactive'
-            }`}
-          >
-            <Icon size={24} />
+            <p
+              className={`order-status-label ${
+                isActive ? 'active' : 'inactive'
+              }`}
+            >
+              {config.label}
+            </p>
+
+            {index < statuses.length - 1 && (
+              <div
+                className={`order-status-line ${
+                  isCompleted ? 'completed' : 'pending'
+                }`}
+              />
+            )}
           </div>
-
-          <p
-            className={`order-status-label ${
-              isActive ? 'active' : 'inactive'
-            }`}
-          >
-            {config.label}
-          </p>
-        </div>
-      );
-    })}
+        );
+      })}
+    </div>
   </div>
-</div>
+);
 
-  );
 };

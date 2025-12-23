@@ -137,6 +137,14 @@
   color: #ea580c;                /* text-orange-600 */
 }
 
+.order-item-image img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
 /* ---------- ORDER AGAIN BUTTON ---------- */
 .order-again-btn {
   width: 100%;
@@ -157,4 +165,10 @@
 .order-again-btn:hover {
   background-color: #c2410c;     /* hover:bg-orange-700 */
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15); /* hover:shadow-xl */
+}
+
+.order-eta {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #374151;
 }

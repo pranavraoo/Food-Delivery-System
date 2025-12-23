@@ -30,8 +30,11 @@
 }
 
 /* ---------- IMAGE ---------- */
-.menu-item-image {
-  font-size: 48px;                /* text-5xl */
+.menu-item-image img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 /* ---------- TEXT BLOCK ---------- */
