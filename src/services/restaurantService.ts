@@ -12,6 +12,7 @@ const mockRestaurants: Restaurant[] = [
       { id: 'm2', name: 'Butter Chicken', description: 'Tender chicken in creamy butter sauce', price: 320, category: 'Main Course', image: '🍗', isVeg: false },
       { id: 'm3', name: 'Garlic Naan', description: 'Fresh bread with garlic', price: 60, category: 'Breads', image: '🥖', isVeg: true },
       { id: 'm4', name: 'Dal Makhani', description: 'Creamy black lentils', price: 220, category: 'Main Course', image: '🍲', isVeg: true },
+      { id: 'm5', name: 'Chicken Biryani', description: 'Aromatic rice with spiced chicken', price: 350, category: 'Main Course', image: '🍚', isVeg: false },
     ]
   },
   {
@@ -21,10 +22,11 @@ const mockRestaurants: Restaurant[] = [
     rating: 4.3,
     deliveryTime: '25-35 min',
     menu: [
-      { id: 'm5', name: 'Margherita Pizza', description: 'Classic tomato and mozzarella', price: 350, category: 'Pizza', image: '🍕', isVeg: true },
-      { id: 'm6', name: 'Pepperoni Pizza', description: 'Spicy pepperoni with cheese', price: 420, category: 'Pizza', image: '🍕', isVeg: false },
-      { id: 'm7', name: 'Pasta Alfredo', description: 'Creamy white sauce pasta', price: 280, category: 'Pasta', image: '🍝', isVeg: true },
-      { id: 'm8', name: 'Garlic Bread', description: 'Toasted bread with garlic butter', price: 120, category: 'Sides', image: '🥖', isVeg: true },
+      { id: 'm6', name: 'Margherita Pizza', description: 'Classic tomato and mozzarella', price: 350, category: 'Pizza', image: '🍕', isVeg: true },
+      { id: 'm7', name: 'Pepperoni Pizza', description: 'Spicy pepperoni with cheese', price: 420, category: 'Pizza', image: '🍕', isVeg: false },
+      { id: 'm8', name: 'Pasta Alfredo', description: 'Creamy white sauce pasta', price: 280, category: 'Pasta', image: '🍝', isVeg: true },
+      { id: 'm9', name: 'Garlic Bread', description: 'Toasted bread with garlic butter', price: 120, category: 'Sides', image: '🥖', isVeg: true },
+      { id: 'm10', name: 'Caesar Salad', description: 'Fresh romaine with caesar dressing', price: 180, category: 'Salads', image: '🥗', isVeg: true },
     ]
   },
   {
@@ -34,10 +36,11 @@ const mockRestaurants: Restaurant[] = [
     rating: 4.2,
     deliveryTime: '20-30 min',
     menu: [
-      { id: 'm9', name: 'Classic Burger', description: 'Beef patty with lettuce and tomato', price: 180, category: 'Burgers', image: '🍔', isVeg: false },
-      { id: 'm10', name: 'Veggie Burger', description: 'Plant-based patty with veggies', price: 160, category: 'Burgers', image: '🍔', isVeg: true },
-      { id: 'm11', name: 'French Fries', description: 'Crispy golden fries', price: 100, category: 'Sides', image: '🍟', isVeg: true },
-      { id: 'm12', name: 'Chicken Wings', description: 'Spicy buffalo wings', price: 240, category: 'Sides', image: '🍗', isVeg: false },
+      { id: 'm11', name: 'Classic Burger', description: 'Beef patty with lettuce and tomato', price: 180, category: 'Burgers', image: '🍔', isVeg: false },
+      { id: 'm12', name: 'Veggie Burger', description: 'Plant-based patty with veggies', price: 160, category: 'Burgers', image: '🍔', isVeg: true },
+      { id: 'm13', name: 'French Fries', description: 'Crispy golden fries', price: 100, category: 'Sides', image: '🍟', isVeg: true },
+      { id: 'm14', name: 'Chicken Wings', description: 'Spicy buffalo wings', price: 240, category: 'Sides', image: '🍗', isVeg: false },
+      { id: 'm15', name: 'Milkshake', description: 'Creamy vanilla milkshake', price: 120, category: 'Beverages', image: '🥤', isVeg: true },
     ]
   }
 ];

@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { Restaurant } from './types/restaurants';
-import { MenuItem } from './types/restaurants';
+import React, { useState } from 'react';
+import { Restaurant, MenuItem } from './types/restaurants';
 import { useCart } from './hooks/useCart';
 import { useOrder } from './hooks/useOrder';
 import { useOrderStatus } from './hooks/useOrderStatus';
@@ -19,6 +18,8 @@ function App() {
 
   const {
     cart,
+    restaurantId,
+    restaurantName,
     addItem,
     updateQuantity,
     removeItem,
@@ -44,14 +45,19 @@ function App() {
 
   const handleAddToCart = (item: MenuItem) => {
     if (selectedRestaurant) {
-      addItem(item, selectedRestaurant.id);
+      addItem(item, selectedRestaurant.id, selectedRestaurant.name);
     }
   };
 
   const handlePlaceOrder = () => {
     if (cart.length === 0 || !selectedRestaurant) return;
 
-    const order = OrderService.createOrder(selectedRestaurant.name, cart);
+    const order = OrderService.createOrder(
+      selectedRestaurant.id,
+      selectedRestaurant.name,
+      cart
+    );
+    
     createOrder(order);
     clearCart();
     setView('order');
@@ -60,6 +66,7 @@ function App() {
   const handleOrderAgain = () => {
     clearCurrentOrder();
     setView('restaurants');
+    setSelectedRestaurant(null);
   };
 
   const handleBackToRestaurants = () => {
@@ -68,7 +75,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50">
       <Header
         cartItemCount={itemCount}
         onCartClick={() => setView('cart')}
@@ -76,7 +83,7 @@ function App() {
         showCart={view !== 'cart' && view !== 'order'}
       />
 
-      <main>
+      <main className="pb-8">
         {view === 'restaurants' && (
           <RestaurantList onSelectRestaurant={handleSelectRestaurant} />
         )}

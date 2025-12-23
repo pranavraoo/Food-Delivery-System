@@ -6,8 +6,9 @@ import { calculateCartTotal, getCartItemCount } from '../utils/helper';
 export const useCart = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [restaurantId, setRestaurantId] = useState<string | null>(null);
+  const [restaurantName, setRestaurantName] = useState<string | null>(null);
 
-  const addItem = useCallback((item: MenuItem, restId: string) => {
+  const addItem = useCallback((item: MenuItem, restId: string, restName: string) => {
     setCart(prev => {
       const existing = prev.find(i => i.id === item.id);
       if (existing) {
@@ -20,6 +21,7 @@ export const useCart = () => {
     
     if (!restaurantId) {
       setRestaurantId(restId);
+      setRestaurantName(restName);
     }
   }, [restaurantId]);
 
@@ -41,6 +43,7 @@ export const useCart = () => {
   const clearCart = useCallback(() => {
     setCart([]);
     setRestaurantId(null);
+    setRestaurantName(null);
   }, []);
 
   const total = calculateCartTotal(cart);
@@ -49,6 +52,7 @@ export const useCart = () => {
   return {
     cart,
     restaurantId,
+    restaurantName,
     addItem,
     updateQuantity,
     removeItem,

@@ -8,8 +8,8 @@ export const APP_CONFIG = {
 
 export const ORDER_STATUS_CONFIG: Record<OrderStatus, OrderStatusConfig> = {
   placed: { label: 'Order Placed', icon: 'Loader2', color: 'text-green-600' },
-  confirmed: {label: 'Order Placed', icon: 'CheckCircle', color: 'text-green-600'},
+  confirmed: { label: 'Confirmed', icon: 'ClipboardCheck', color: 'text-blue-600' },
   preparing: { label: 'Preparing', icon: 'Utensils', color: 'text-orange-600' },
-  out_for_delivery: { label: 'Out for Delivery', icon: 'Package', color: 'text-blue-600' },
+  out_for_delivery: { label: 'Out for Delivery', icon: 'Package', color: 'text-purple-600' },
   delivered: { label: 'Delivered', icon: 'CheckCircle', color: 'text-green-600' },
 };

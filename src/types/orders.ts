@@ -4,6 +4,7 @@ export type OrderStatus = 'placed' | 'confirmed' | 'preparing' | 'out_for_delive
 
 export interface Order {
   id: string;
+  restaurantId: string;
   restaurantName: string;
   items: CartItem[];
   total: number;

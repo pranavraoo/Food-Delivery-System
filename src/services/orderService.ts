@@ -1,11 +1,17 @@
+
 import { Order, OrderStatus } from '../types/orders';
 import { CartItem } from '../types/carts';
 import { generateOrderId, calculateCartTotal } from '../utils/helper';
 
 export class OrderService {
-  static createOrder(restaurantName: string, items: CartItem[]): Order {
+  static createOrder(
+    restaurantId: string,
+    restaurantName: string,
+    items: CartItem[]
+  ): Order {
     return {
       id: generateOrderId(),
+      restaurantId,
       restaurantName,
       items: [...items],
       total: calculateCartTotal(items),
@@ -15,7 +21,7 @@ export class OrderService {
   }
 
   static getNextStatus(currentStatus: OrderStatus): OrderStatus | null {
-    const progression: OrderStatus[] = ['placed', 'preparing', 'out_for_delivery', 'delivered'];
+    const progression: OrderStatus[] = ['placed', 'confirmed', 'preparing', 'out_for_delivery', 'delivered'];
     const currentIndex = progression.indexOf(currentStatus);
     
     if (currentIndex < progression.length - 1) {
