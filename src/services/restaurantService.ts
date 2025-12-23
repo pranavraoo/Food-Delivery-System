@@ -22,63 +22,41 @@ const RESTAURANT_NAME_MAP: Record<string, string> = {
 
 /* ---------- Delivery time modeling ---------- */
 const DELIVERY_TIME_MAP: Record<string, number> = {
-  Beef: 40,
-  Chicken: 35,
-  Seafood: 45,
-  Lamb: 45,
-  Pork: 40,
-  Goat: 50,
-  Pasta: 30,
-  Vegetarian: 25,
-  Vegan: 25,
-  Dessert: 20,
-  Breakfast: 20,
-  Side: 15,
-  Starter: 20,
-  Miscellaneous: 30,
+  Beef: 3,
+  Chicken: 2.5,
+  Seafood: 3.5,
+  Lamb: 3,
+  Pork: 2.5,
+  Goat: 3,
+  Pasta: 2,
+  Vegetarian: 2,
+  Vegan: 2,
+  Dessert: 1.5,
+  Breakfast: 1.5,
+  Side: 1.5,
+  Starter: 2,
+  Miscellaneous: 2.5,
 };
 
 function getDeliveryTime(category: string): string {
-  const base = DELIVERY_TIME_MAP[category] ?? 30;
-  const variance = Math.floor(Math.random() * 6); // 0–5 min
-  return `${base + variance}-${base + variance + 10} min`;
+  const base = DELIVERY_TIME_MAP[category] ?? 2.5;
+  const variance = Math.floor(Math.random() * 0.6) - 0.3; // ±3 min
+  const min = Math.max(base + variance, 1.5);
+  return `${min}-${min + 0.5} min`;
 }
 
 /* ---------- Veg / Non-Veg inference ---------- */
-const NON_VEG_KEYWORDS = [
-  'chicken',
+const NON_VEG_CATEGORIES = new Set([
   'beef',
-  'pork',
+  'chicken',
   'lamb',
+  'pork',
   'goat',
-  'fish',
   'seafood',
-  'shrimp',
-  'prawn',
-  'egg',
-  'bacon',
-];
+]);
 
-function inferIsVeg(category: string, mealName: string): boolean {
-  const cat = category.toLowerCase();
-
-  // PRIMARY: category-based decision
-  if (cat === 'vegetarian' || cat === 'vegan') return true;
-
-  if (
-    cat === 'beef' ||
-    cat === 'chicken' ||
-    cat === 'lamb' ||
-    cat === 'pork' ||
-    cat === 'goat' ||
-    cat === 'seafood'
-  ) {
-    return false;
-  }
-
-  // SECONDARY: name-based fallback
-  const name = mealName.toLowerCase();
-  return !NON_VEG_KEYWORDS.some(word => name.includes(word));
+function inferIsVeg(category: string): boolean {
+  return !NON_VEG_CATEGORIES.has(category.toLowerCase());
 }
 
 export class RestaurantService {
@@ -92,7 +70,8 @@ export class RestaurantService {
       name:
         RESTAURANT_NAME_MAP[cat.strCategory] ??
         `${cat.strCategory} Kitchen`,
-      cuisine: cat.strCategory,
+      cuisine: cat.strCategory,          // display
+      apiCategory: cat.strCategory,       // ✅ REAL MealDB category
       rating: Number((Math.random() * 1.5 + 3.5).toFixed(1)),
       deliveryTime: getDeliveryTime(cat.strCategory),
       menu: [],
@@ -118,19 +97,19 @@ export class RestaurantService {
         RESTAURANT_NAME_MAP[category.strCategory] ??
         `${category.strCategory} Kitchen`,
       cuisine: category.strCategory,
+      apiCategory: category.strCategory,  // ✅ REQUIRED
       rating: Number((Math.random() * 1.5 + 3.5).toFixed(1)),
       deliveryTime: getDeliveryTime(category.strCategory),
       menu: [],
-      image: category.strCategoryThumb,
     };
   }
 
   /* ---------- Menu ---------- */
   static async getMenuByRestaurant(
-    categoryName: string
+    apiCategory: string
   ): Promise<MenuItem[]> {
     const res = await fetch(
-      `${BASE_URL}/filter.php?c=${encodeURIComponent(categoryName)}`
+      `${BASE_URL}/filter.php?c=${encodeURIComponent(apiCategory)}`
     );
     const data = await res.json();
 
@@ -141,9 +120,9 @@ export class RestaurantService {
       name: meal.strMeal,
       description: 'Delicious meal prepared fresh',
       price: Math.floor(Math.random() * 200 + 150),
-      category: categoryName,
+      category: apiCategory,
       image: meal.strMealThumb,
-      isVeg: inferIsVeg(categoryName, meal.strMeal),
+      isVeg: inferIsVeg(apiCategory),
     }));
   }
 

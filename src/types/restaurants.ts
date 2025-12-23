@@ -10,10 +10,10 @@ export interface MenuItem {
 
 export interface Restaurant {
   id: string;
-  name: string;
-  cuisine: string;
+  name: string;            
+  cuisine: string;         
+  apiCategory: string;
   rating: number;
   deliveryTime: string;
   menu: MenuItem[];
-  image: string;
 }

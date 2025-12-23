@@ -1,0 +1,88 @@
+.order-history-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.order-history-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.order-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-history-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.order-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-history-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.order-history-id {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.order-status {
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 12px;
+  color: #16a34a;
+}
+
+.order-history-items {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.order-history-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-history-total {
+  font-weight: 700;
+}
+
+.order-history-reorder-btn {
+  background-color: #ea580c;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.order-history-reorder-btn:hover {
+  background-color: #c2410c;
+}
+
+.order-history-empty {
+  text-align: center;
+  padding: 64px;
+  font-size: 18px;
+  color: #6b7280;
+}

@@ -30,20 +30,22 @@ export class OrderService {
   static createOrder(
     restaurantId: string,
     restaurantName: string,
+    restaurantApiCategory: string,
     items: CartItem[],
     deliveryTime?: string
   ): Order {
     const etaMinutes = extractETA(deliveryTime);
     const now = Date.now();
 
-    return {
+     return {
       id: generateOrderId(),
       restaurantId,
       restaurantName,
+      restaurantApiCategory, // ✅
       items: [...items],
       total: calculateCartTotal(items),
       status: 'placed',
-      createdAt: now,                         // ✅ FIX
+      createdAt: now,
       etaEndTime: now + etaMinutes * 60 * 1000,
     };
   }

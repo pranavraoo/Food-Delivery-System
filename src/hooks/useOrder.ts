@@ -1,19 +1,70 @@
-import { useState, useCallback } from 'react';
-import { Order } from '../types/orders';
+import { useState, useCallback, useEffect } from 'react';
+import { Order, OrderStatus } from '../types/orders';
+
+const STORAGE_KEY = 'order_history';
+const CURRENT_ORDER_KEY = 'current_order';
 
 export const useOrder = () => {
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
 
+  /* ---------- Load persisted data ---------- */
+  useEffect(() => {
+    const savedHistory = localStorage.getItem(STORAGE_KEY);
+    const savedCurrent = localStorage.getItem(CURRENT_ORDER_KEY);
+
+    if (savedHistory) {
+      setOrderHistory(JSON.parse(savedHistory));
+    }
+
+    if (savedCurrent) {
+      setCurrentOrder(JSON.parse(savedCurrent));
+    }
+  }, []);
+
+  /* ---------- Persist order history ---------- */
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(orderHistory));
+  }, [orderHistory]);
+
+  /* ---------- Persist current order ---------- */
+  useEffect(() => {
+    if (currentOrder) {
+      localStorage.setItem(
+        CURRENT_ORDER_KEY,
+        JSON.stringify(currentOrder)
+      );
+    } else {
+      localStorage.removeItem(CURRENT_ORDER_KEY);
+    }
+  }, [currentOrder]);
+
+  /* ---------- Create order ---------- */
   const createOrder = useCallback((order: Order) => {
     setCurrentOrder(order);
     setOrderHistory(prev => [order, ...prev]);
   }, []);
 
-  const updateOrderStatus = useCallback((status: Order['status']) => {
-    setCurrentOrder(prev => prev ? { ...prev, status } : null);
+  /* ---------- Update order status ---------- */
+  const updateOrderStatus = useCallback((status: OrderStatus) => {
+    setCurrentOrder(prev => {
+      if (!prev) return prev;
+
+      const updatedOrder = { ...prev, status };
+
+      setOrderHistory(history =>
+        history.map(order =>
+          order.id === updatedOrder.id
+            ? updatedOrder
+            : order
+        )
+      );
+
+      return updatedOrder;
+    });
   }, []);
 
+  /* ---------- Clear current order ---------- */
   const clearCurrentOrder = useCallback(() => {
     setCurrentOrder(null);
   }, []);

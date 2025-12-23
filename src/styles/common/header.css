@@ -75,3 +75,36 @@
   background-color: #c2410c;                 /* hover:bg-orange-700 */
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* hover:shadow-lg */
 }
+
+
+/* ---------- HEADER ACTIONS ---------- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* ---------- HISTORY BUTTON ---------- */
+.header-history-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: #ffffff;
+  color: #374151;                 /* text-gray-700 */
+  border: 1px solid #e5e7eb;      /* border-gray-200 */
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.header-history-btn:hover {
+  background-color: #f9fafb;      /* bg-gray-50 */
+  color: #ea580c;                 /* hover:text-orange-600 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}

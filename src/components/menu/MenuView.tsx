@@ -27,10 +27,10 @@ export const MenuView: React.FC<MenuViewProps> = ({
   const [sortBy, setSortBy] = useState<'none' | 'price-low' | 'price-high' | 'name'>('none');
 
   useEffect(() => {
+    console.log('MENU FETCH CATEGORY:', restaurant.apiCategory);
     setLoading(true);
 
-    // ✅ IMPORTANT FIX: use cuisine, NOT name
-    RestaurantService.getMenuByRestaurant(restaurant.cuisine)
+    RestaurantService.getMenuByRestaurant(restaurant.apiCategory)
       .then(setMenu)
       .finally(() => setLoading(false));
   }, [restaurant]);

@@ -6,12 +6,15 @@ export interface Order {
   id: string;
   restaurantId: string;
   restaurantName: string;
+  restaurantApiCategory: string; // ✅ STORE THIS
   items: CartItem[];
   total: number;
   status: OrderStatus;
   createdAt: number;
   etaEndTime: number;
 }
+
+
 
 export interface OrderStatusConfig {
   label: string;
