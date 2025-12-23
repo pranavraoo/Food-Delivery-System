@@ -1,0 +1,7 @@
+.header {
+  background: var(--white);
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 20px;
+  font-weight: 600;
+}

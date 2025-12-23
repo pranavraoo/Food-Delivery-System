@@ -1,0 +1,10 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

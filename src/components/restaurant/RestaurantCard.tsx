@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clock } from 'lucide-react';
 import { Restaurant } from '../../types/restaurants';
+import '../../styles/restaurant/restaurant-card.css';
 
 interface RestaurantCardProps {
   restaurant: Restaurant;
@@ -12,26 +13,27 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
   onClick,
 }) => {
   return (
-    <div 
-      onClick={onClick}
-      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:border-orange-300"
-    >
-      <div className="flex justify-between items-start">
-        <div className="flex-1">
-          <h2 className="text-xl font-bold text-gray-800 mb-1">{restaurant.name}</h2>
-          <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine}</p>
-          <div className="flex items-center gap-3 text-sm">
-            <div className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded">
-              <span className="text-yellow-500">⭐</span>
-              <span className="font-semibold text-gray-700">{restaurant.rating}</span>
-            </div>
-            <div className="flex items-center gap-1 text-gray-600">
-              <Clock size={14} />
-              <span>{restaurant.deliveryTime}</span>
-            </div>
-          </div>
+    <div onClick={onClick} className="restaurant-card">
+  <div className="restaurant-card-inner">
+    <div className="restaurant-info">
+      <h2 className="restaurant-name">{restaurant.name}</h2>
+      <p className="restaurant-cuisine">{restaurant.cuisine}</p>
+
+      <div className="restaurant-meta">
+        <div className="restaurant-rating">
+          <span>⭐</span>
+          <span className="restaurant-rating-value">
+            {restaurant.rating}
+          </span>
+        </div>
+
+        <div className="restaurant-time">
+          <Clock size={14} />
+          <span>{restaurant.deliveryTime}</span>
         </div>
       </div>
     </div>
+  </div>
+</div>
   );
 };

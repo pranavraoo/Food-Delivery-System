@@ -1,0 +1,160 @@
+/* ---------- PAGE CONTAINER ---------- */
+.order-summary-container {
+  max-width: 896px;              /* max-w-4xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 32px 16px;            /* py-8 px-4 */
+}
+
+@media (min-width: 640px) {
+  .order-summary-container {
+    padding-left: 24px;          /* sm:px-6 */
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .order-summary-container {
+    padding-left: 32px;          /* lg:px-8 */
+    padding-right: 32px;
+  }
+}
+
+/* ---------- PAGE TITLE ---------- */
+.order-summary-title {
+  font-size: 36px;               /* text-4xl */
+  font-weight: 700;              /* font-bold */
+  margin-bottom: 32px;           /* mb-8 */
+  color: #1f2937;                /* text-gray-800 */
+}
+
+/* ---------- STATUS CARD ---------- */
+.order-status-card {
+  background: linear-gradient(135deg, #f0fdf4, #eff6ff); /* from-green-50 to-blue-50 */
+  border: 2px solid #bbf7d0;     /* border-green-200 */
+  border-radius: 12px;           /* rounded-xl */
+  padding: 32px;                 /* p-8 */
+  margin-bottom: 32px;           /* mb-8 */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* shadow-lg */
+}
+
+.order-status-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;                     /* gap-4 */
+  margin-bottom: 24px;           /* mb-6 */
+}
+
+.order-status-icon {
+  border-radius: 9999px;
+  padding: 16px;                 /* p-4 */
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+/* ---------- STATUS TEXT ---------- */
+.order-status-label {
+  font-size: 30px;               /* text-3xl */
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.order-status-id {
+  font-size: 18px;               /* text-lg */
+  color: #4b5563;                /* text-gray-600 */
+}
+
+/* ---------- ORDER DETAILS CARD ---------- */
+.order-details-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;     /* border-gray-200 */
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-details-title {
+  font-size: 24px;               /* text-2xl */
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.order-details-restaurant {
+  font-size: 18px;
+  color: #4b5563;
+  margin-bottom: 24px;
+}
+
+/* ---------- ORDER ITEMS ---------- */
+.order-items {
+  margin-bottom: 24px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;                /* py-2 */
+  border-bottom: 1px solid #f3f4f6; /* border-gray-100 */
+}
+
+.order-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.order-item-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.order-item-qty {
+  font-size: 14px;
+  color: #6b7280;                /* text-gray-500 */
+  margin-left: 8px;
+}
+
+.order-item-price {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ---------- TOTAL ---------- */
+.order-total {
+  border-top: 2px solid #d1d5db; /* border-gray-300 */
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;               /* text-2xl */
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.order-total-value {
+  color: #ea580c;                /* text-orange-600 */
+}
+
+/* ---------- ORDER AGAIN BUTTON ---------- */
+.order-again-btn {
+  width: 100%;
+  background-color: #ea580c;
+  color: #ffffff;
+  padding: 16px 0;               /* py-4 */
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: 
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-again-btn:hover {
+  background-color: #c2410c;     /* hover:bg-orange-700 */
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15); /* hover:shadow-xl */
+}

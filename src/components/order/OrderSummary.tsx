@@ -4,6 +4,7 @@ import { Order } from '../../types/orders';
 import { ORDER_STATUS_CONFIG } from '../../config/app_config';
 import { OrderStatusTracker } from './OrderStatusTracker';
 import { formatPrice } from '../../utils/helper';
+import '../../styles/order/order-summary.css';
 
 interface OrderSummaryProps {
   order: Order;
@@ -43,41 +44,42 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
         <OrderStatusTracker currentStatus={order.status} />
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-8 mb-8 shadow-lg">
-        <h3 className="font-bold text-2xl mb-4 text-gray-800">Order Summary</h3>
-        <p className="text-gray-600 mb-6 text-lg">
-          From <span className="font-semibold text-gray-800">{order.restaurantName}</span>
-        </p>
-        
-        <div className="space-y-3 mb-6">
-          {order.items.map(item => (
-            <div key={item.id} className="flex justify-between items-center py-2 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{item.image}</span>
-                <div>
-                  <span className="font-semibold text-gray-800">{item.name}</span>
-                  <span className="text-gray-500 text-sm ml-2">× {item.quantity}</span>
-                </div>
+      <div className="order-details-card">
+      <h3 className="order-details-title">Order Summary</h3>
+      <p className="order-details-restaurant">
+        From <span className="order-item-name">{order.restaurantName}</span>
+      </p>
+
+      <div className="order-items">
+        {order.items.map(item => (
+          <div key={item.id} className="order-item">
+            <div className="order-item-left">
+              <span className="text-2xl">{item.image}</span>
+              <div>
+                <span className="order-item-name">{item.name}</span>
+                <span className="order-item-qty">× {item.quantity}</span>
               </div>
-              <span className="font-semibold text-gray-800">{formatPrice(item.price * item.quantity)}</span>
             </div>
-          ))}
-        </div>
-        
-        <div className="border-t-2 border-gray-300 pt-4 flex justify-between text-2xl font-bold text-gray-800">
-          <span>Total</span>
-          <span className="text-orange-600">{formatPrice(order.total)}</span>
-        </div>
+            <span className="order-item-price">
+              {formatPrice(item.price * item.quantity)}
+            </span>
+          </div>
+        ))}
       </div>
 
+      <div className="order-total">
+        <span>Total</span>
+        <span className="order-total-value">{formatPrice(order.total)}</span>
+      </div>
+    </div>
+
+
       {order.status === 'delivered' && (
-        <button
-          onClick={onOrderAgain}
-          className="w-full bg-orange-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-700 transition-colors shadow-md hover:shadow-xl"
-        >
+        <button onClick={onOrderAgain} className="order-again-btn">
           Order Again
         </button>
       )}
+
     </div>
   );
 };

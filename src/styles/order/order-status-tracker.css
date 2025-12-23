@@ -1,0 +1,81 @@
+/* Wrapper (relative) */
+.order-status-wrapper {
+  position: relative;
+}
+
+/* Horizontal container */
+.order-status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Each status column */
+.order-status-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Connecting line */
+.order-status-line {
+  position: absolute;
+  top: 20px;               /* top-5 */
+  left: 50%;
+  width: 100%;
+  height: 4px;             /* h-1 */
+  transform: translateX(0);
+  z-index: -10;
+  transition: background-color 0.5s ease;
+}
+
+.order-status-line.completed {
+  background-color: #16a34a; /* bg-green-600 */
+}
+
+.order-status-line.pending {
+  background-color: #d1d5db; /* bg-gray-300 */
+}
+
+/* Icon circle */
+.order-status-icon {
+  border-radius: 50%;
+  padding: 12px;           /* p-3 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  transition: 
+    background-color 0.5s ease,
+    transform 0.5s ease;
+}
+
+.order-status-icon.active {
+  background-color: #16a34a;
+  transform: scale(1.1);   /* scale-110 */
+}
+
+.order-status-icon.inactive {
+  background-color: #d1d5db;
+}
+
+/* Icon itself */
+.order-status-icon svg {
+  color: #ffffff;
+}
+
+/* Label */
+.order-status-label {
+  font-size: 12px;         /* text-xs */
+  margin-top: 12px;        /* mt-3 */
+  text-align: center;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.order-status-label.active {
+  color: #1f2937;          /* text-gray-800 */
+}
+
+.order-status-label.inactive {
+  color: #6b7280;          /* text-gray-500 */
+}

@@ -1,0 +1,118 @@
+/* ---------- CARD ---------- */
+.menu-item-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;      /* border-gray-200 */
+  border-radius: 12px;            /* rounded-xl */
+  padding: 16px;                  /* p-4 */
+  transition: 
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.menu-item-card:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* hover:shadow-lg */
+  border-color: #fed7aa;          /* hover:border-orange-200 */
+}
+
+/* ---------- LAYOUT ---------- */
+.menu-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.menu-item-left {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- IMAGE ---------- */
+.menu-item-image {
+  font-size: 48px;                /* text-5xl */
+}
+
+/* ---------- TEXT BLOCK ---------- */
+.menu-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;                       /* gap-2 */
+  margin-bottom: 4px;             /* mb-1 */
+}
+
+.menu-item-name {
+  font-weight: 600;               /* font-semibold */
+  color: #1f2937;                 /* text-gray-800 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;        /* truncate */
+}
+
+/* ---------- VEG / NON-VEG BADGE ---------- */
+.menu-item-badge {
+  font-size: 12px;                /* text-xs */
+  padding: 2px 8px;               /* px-2 py-0.5 */
+  border-radius: 9999px;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.menu-item-badge.veg {
+  background-color: #dcfce7;      /* bg-green-100 */
+  color: #15803d;                 /* text-green-700 */
+  border-color: #86efac;          /* border-green-300 */
+}
+
+.menu-item-badge.non-veg {
+  background-color: #fee2e2;      /* bg-red-100 */
+  color: #b91c1c;                 /* text-red-700 */
+  border-color: #fca5a5;          /* border-red-300 */
+}
+
+/* ---------- DESCRIPTION ---------- */
+.menu-item-desc {
+  font-size: 14px;                /* text-sm */
+  color: #4b5563;                 /* text-gray-600 */
+  margin-bottom: 8px;             /* mb-2 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;          /* line-clamp-2 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- PRICE ---------- */
+.menu-item-price {
+  font-weight: 700;               /* font-bold */
+  color: #1f2937;                 /* text-gray-800 */
+}
+
+/* ---------- ADD BUTTON ---------- */
+.menu-item-add-btn {
+  background-color: #ea580c;      /* bg-orange-600 */
+  color: #ffffff;
+  padding: 8px 16px;              /* px-4 py-2 */
+  border-radius: 8px;             /* rounded-lg */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+.menu-item-add-btn:hover {
+  background-color: #c2410c;      /* hover:bg-orange-700 */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15); /* hover:shadow-lg */
+}

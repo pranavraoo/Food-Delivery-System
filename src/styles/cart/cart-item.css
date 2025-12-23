@@ -1,0 +1,115 @@
+/* ---------- CARD ---------- */
+.cart-item-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;        /* border-gray-200 */
+  border-radius: 12px;              /* rounded-xl */
+  padding: 16px;                    /* p-4 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+
+/* ---------- ROW LAYOUT ---------- */
+.cart-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ---------- LEFT SECTION ---------- */
+.cart-item-left {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-image {
+  font-size: 36px;                  /* text-4xl */
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-name {
+  font-weight: 600;
+  color: #1f2937;                   /* text-gray-800 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;          /* truncate */
+}
+
+.cart-item-price-each {
+  font-size: 14px;
+  color: #4b5563;                   /* text-gray-600 */
+}
+
+/* ---------- CONTROLS ---------- */
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Quantity selector */
+.cart-qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d1d5db;        /* border-gray-300 */
+  border-radius: 8px;               /* rounded-lg */
+  background-color: #f9fafb;        /* bg-gray-50 */
+}
+
+.cart-qty-btn {
+  padding: 8px 12px;                /* px-3 py-2 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cart-qty-btn:hover {
+  background-color: #f3f4f6;        /* hover:bg-gray-100 */
+}
+
+.cart-qty-btn.left {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.cart-qty-btn.right {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.cart-qty-value {
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 32px;                  /* min-w-[2rem] */
+  text-align: center;
+}
+
+/* ---------- ITEM TOTAL ---------- */
+.cart-item-total {
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 80px;                  /* min-w-[5rem] */
+  text-align: right;
+}
+
+/* ---------- REMOVE BUTTON ---------- */
+.cart-item-remove {
+  color: #dc2626;                   /* text-red-600 */
+  padding: 8px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cart-item-remove:hover {
+  background-color: #fee2e2;        /* hover:bg-red-50 */
+}

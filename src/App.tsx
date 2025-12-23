@@ -9,6 +9,7 @@ import { RestaurantList } from './components/restaurant/RestaurantList';
 import { MenuView } from './components/menu/MenuView';
 import { CartView } from './components/cart/CartView';
 import { OrderSummary } from './components/order/OrderSummary';
+import './App.css';
 
 type View = 'restaurants' | 'menu' | 'cart' | 'order';
 

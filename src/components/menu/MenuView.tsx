@@ -3,6 +3,8 @@ import { ShoppingCart } from 'lucide-react';
 import { Restaurant, MenuItem as MenuItemType } from '../../types/restaurants';
 import { RestaurantService } from '../../services/restaurantService';
 import { MenuItem } from './MenuItem';
+import '../../styles/menu/menu-view.css';
+
 
 interface MenuViewProps {
   restaurant: Restaurant;
@@ -22,45 +24,43 @@ export const MenuView: React.FC<MenuViewProps> = ({
   const categories = RestaurantService.getMenuCategories(restaurant);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <button 
-        onClick={onBack}
-        className="mb-6 text-orange-600 hover:text-orange-700 font-semibold flex items-center gap-2"
-      >
+    <div className="menu-view-container">
+      <button onClick={onBack} className="menu-back-btn">
         ← Back to Restaurants
       </button>
+
       
-      <div className="flex justify-between items-start mb-8 flex-wrap gap-4">
+      <div className="menu-header">
         <div>
-          <h1 className="text-4xl font-bold text-gray-800">{restaurant.name}</h1>
-          <div className="flex items-center gap-3 mt-2">
-            <p className="text-gray-600">{restaurant.cuisine}</p>
-            <span className="text-gray-400">•</span>
+          <h1 className="menu-title">{restaurant.name}</h1>
+          <div className="menu-meta">
+            <p>{restaurant.cuisine}</p>
+            <span className="menu-meta-separator">•</span>
             <div className="flex items-center gap-1">
               <span className="text-yellow-500">⭐</span>
-              <span className="font-semibold text-gray-700">{restaurant.rating}</span>
+              <span className="font-semibold text-gray-700">
+                {restaurant.rating}
+              </span>
             </div>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-600">{restaurant.deliveryTime}</span>
+            <span className="menu-meta-separator">•</span>
+            <span>{restaurant.deliveryTime}</span>
           </div>
         </div>
+
         {cartItemCount > 0 && (
-          <button
-            onClick={onViewCart}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors shadow-md hover:shadow-lg font-semibold"
-          >
-            <ShoppingCart size={20} />
-            View Cart ({cartItemCount})
-          </button>
-        )}
-      </div>
+        <button onClick={onViewCart} className="menu-cart-btn">
+          <ShoppingCart size={20} />
+          View Cart ({cartItemCount})
+        </button>
+      )}
+    </div>
+
 
       {categories.map(category => (
-        <div key={category} className="mb-10">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800 border-b-2 border-orange-600 pb-2 inline-block">
-            {category}
-          </h2>
-          <div className="grid gap-4 mt-4">
+        <div key={category} className="menu-category">
+          <h2 className="menu-category-title">{category}</h2>
+
+          <div className="menu-items-grid">
             {restaurant.menu
               .filter(item => item.category === category)
               .map(item => (
@@ -72,6 +72,7 @@ export const MenuView: React.FC<MenuViewProps> = ({
               ))}
           </div>
         </div>
+
       ))}
     </div>
   );
