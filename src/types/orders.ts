@@ -1,12 +1,27 @@
 import { CartItem } from './carts';
 
-export type OrderStatus = 'placed' | 'confirmed' | 'preparing' | 'out_for_delivery' | 'delivered';
+export type OrderStatus =
+  | 'placed'
+  | 'confirmed'
+  | 'preparing'
+  | 'out_for_delivery'
+  | 'delivered';
 
-export interface Order {
-  id: string;
+/* ---------- FRONTEND → BACKEND ---------- */
+export interface CreateOrderPayload {
   restaurantId: string;
   restaurantName: string;
-  restaurantApiCategory: string; // ✅ STORE THIS
+  restaurantApiCategory: string;
+  items: CartItem[];
+  total: number;
+}
+
+/* ---------- BACKEND → FRONTEND ---------- */
+export interface Order {
+  _id: string;
+  restaurantId: string;
+  restaurantName: string;
+  restaurantApiCategory: string;
   items: CartItem[];
   total: number;
   status: OrderStatus;

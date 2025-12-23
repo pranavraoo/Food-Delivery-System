@@ -1,24 +1,39 @@
-const API_BASE_URL = 'http://localhost:8000/api';
-// import.meta.env.VITE_API_BASE_URL || 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+async function request<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...options,
+  });
+
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`);
+  }
+
+  return res.json();
+}
 
 export const apiClient = {
-  get: async <T>(endpoint: string): Promise<T> => {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`);
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-    }
-    return response.json();
+  get<T>(endpoint: string): Promise<T> {
+    return request<T>(endpoint);
   },
-  
-  post: async <T>(endpoint: string, data: any): Promise<T> => {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+
+  post<T>(endpoint: string, body: any): Promise<T> {
+    return request<T>(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-    }
-    return response.json();
+  },
+
+  patch<T>(endpoint: string, body: any): Promise<T> {
+    return request<T>(endpoint, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    });
   },
 };

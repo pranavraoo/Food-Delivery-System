@@ -33,12 +33,13 @@ function App() {
   } = useCart();
 
   const {
-    currentOrder,
-    orderHistory,
-    createOrder,
-    updateOrderStatus,
-    clearCurrentOrder,
-  } = useOrder();
+  currentOrder,
+  orderHistory,
+  fetchOrderHistory,
+  createOrder,
+  updateOrderStatus,
+  clearCurrentOrder,
+} = useOrder();
 
   // Time-driven order status
   useOrderStatus(currentOrder, updateOrderStatus);
@@ -62,22 +63,29 @@ function App() {
     addItem(item, selectedRestaurant.id, selectedRestaurant.name);
   };
 
-  const handlePlaceOrder = () => {
-    if (!selectedRestaurant || cart.length === 0) return;
+  const handlePlaceOrder = async () => {
+  if (!selectedRestaurant || cart.length === 0) return;
 
-    const order = OrderService.createOrder(
-      selectedRestaurant.id,
-      selectedRestaurant.name,
-      selectedRestaurant.cuisine,
-      cart,
-      selectedRestaurant.deliveryTime
-    );
-
-
-    createOrder(order);
-    clearCart();
-    setView('order');
+  const payload = {
+    restaurantId: selectedRestaurant.id,
+    restaurantName: selectedRestaurant.name,
+    restaurantApiCategory: selectedRestaurant.apiCategory,
+    items: cart.map(item => ({
+      menuItemId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+    })),
+    total,
+    etaEndTime: Date.now() + 30 * 60 * 1000, // temporary (backend ETA next)
   };
+
+  const order = await createOrder(payload);
+
+  clearCart();
+  setView('order');
+};
 
   /* ---------- Order flows ---------- */
 
@@ -116,7 +124,10 @@ const handleReorderFromHistory = (order: Order) => {
         cartItemCount={itemCount}
         onCartClick={() => setView('cart')}
         onLogoClick={handleBackToRestaurants}
-        onHistoryClick={() => setView('history')}
+        onHistoryClick={() => {
+          fetchOrderHistory();
+          setView('history');
+        }}
         showCart={
           view !== 'cart' &&
           view !== 'order' &&
