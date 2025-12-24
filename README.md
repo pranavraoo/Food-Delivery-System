@@ -1,73 +1,257 @@
-# React + TypeScript + Vite
+```markdown
+# Food Delivery Ordering System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is a **full-stack food delivery web application** that simulates a real-world online food ordering platform. Users can browse restaurants, explore menus, manage a cart, place orders, track live order status with ETA countdowns, and access persistent order history.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The system follows a **client–server architecture**, using a modern React frontend and a RESTful backend powered by Node.js, Express, and MongoDB.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key Features
 
-## Expanding the ESLint configuration
+### Frontend
+- Restaurant listing and discovery  
+- Menu browsing with veg / non-veg classification  
+- Cart management with quantity control  
+- Multi-restaurant cart guard  
+- Order placement and confirmation  
+- Backend-driven order status tracking  
+- Live ETA countdown (minutes and seconds)  
+- Persistent order history with reorder support  
+- Responsive and modular UI  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Backend
+- RESTful API architecture  
+- MongoDB Atlas integration  
+- Separate collections for restaurants, menu items, and orders  
+- Backend-controlled order lifecycle and ETA resolution  
+- Order persistence and history retrieval  
+- Production-ready build and deployment setup  
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Technology Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Layer      | Technologies                          |
+|------------|---------------------------------------|
+| Frontend   | React, TypeScript, Vite               |
+| Backend    | Node.js, Express.js                   |
+| Database   | MongoDB Atlas                         |
+| ODM        | Mongoose                              |
+| Deployment | Render                                |
+| External API | TheMealDB (used for initial seeding) |
+
+---
+
+## Project Structure
+
+### Frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+frontend/
+├── components/
+├── hooks/
+├── services/
+├── types/
+├── styles/
+├── App.tsx
+└── main.tsx
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Backend
+```
+
+backend/
+├── controllers/
+├── models/
+├── routes/
+├── utils/
+├── config/
+├── server.ts
+└── db.ts
+
+````
+
+---
+
+## Setup Instructions
+
+### Prerequisites
+- Node.js (v18 or later)
+- MongoDB Atlas account
+- Git
+
+---
+
+### Backend Setup
+
+1. Navigate to the backend directory:
+```bash
+cd backend
+npm install
+````
+
+2. Create a `.env` file:
+
+```env
+PORT=5000
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/food_delivery
+```
+
+3. Configure MongoDB Atlas:
+
+* Go to **Network Access**
+* Add IP address: `0.0.0.0/0`
+
+4. Build and start the backend:
+
+```bash
+npm run build
+npm start
+```
+
+The backend will run at:
+
+```
+http://localhost:5000/api
+```
+
+---
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+
+```bash
+cd frontend
+npm install
+```
+
+2. Create a `.env` file:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+3. Start the frontend:
+
+```bash
+npm run dev
+```
+
+The frontend will be available at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Sample Usage / Test Flow
+
+### 1. Browse Restaurants
+
+* Open the application
+* View a list of available restaurants fetched from the backend
+* Each restaurant displays cuisine type, rating, and delivery time
+
+### 2. View Menu
+
+* Click on a restaurant
+* Browse menu items categorized by type
+* Veg / Non-Veg indicators are displayed per item
+
+### 3. Add Items to Cart
+
+* Add items to the cart
+* Quantity can be increased or decreased
+* The cart enforces a **single-restaurant constraint**
+
+### 4. Place an Order
+
+* Navigate to the cart
+* Click **Place Order**
+* Order is sent to the backend and persisted in MongoDB
+
+### 5. Track Order Status
+
+* Order status updates automatically:
+
+  * Placed → Confirmed → Preparing → Out for Delivery → Delivered
+* Live ETA countdown updates in minutes and seconds
+* Status resolution is **backend-driven**
+
+### 6. View Order History
+
+* Access past orders from the order history view
+* Each order displays:
+
+  * Items
+  * Total cost
+  * Final status
+  * Remaining / completed ETA
+
+### 7. Reorder
+
+* Click **Reorder** from order history
+* Items are merged into the cart
+* Menu page is skipped for faster checkout
+
+---
+
+## Deployment Notes
+
+### Backend (Render)
+
+* **Build Command:** `npm run build`
+* **Start Command:** `npm start`
+* Environment variables:
+
+  * `MONGO_URI`
+  * `PORT`
+
+### Frontend (Render / Netlify / Vercel)
+
+* **Build Command:** `npm run build`
+* **Output Directory:** `dist`
+* Environment variable:
+
+```env
+VITE_API_BASE_URL=<backend_live_url>/api
+```
+
+---
+
+## Common Issues & Solutions
+
+| Issue                                  | Solution                               |
+| -------------------------------------- | -------------------------------------- |
+| MongoDB connection failure             | Ensure IP whitelist allows `0.0.0.0/0` |
+| Backend works locally but not deployed | Use `npm start`, not `nodemon`         |
+| Menu not loading                       | Verify `apiCategory` mapping           |
+| ETA always static                      | Ensure backend ETA logic is active     |
+| Reorder cart errors                    | Use normalized menu item IDs           |
+
+---
+
+## Learning Outcomes
+
+* Full-stack application design
+* REST API development
+* MongoDB schema modeling
+* Backend-driven UI state
+* Deployment and environment management
+* Debugging real-world production issues
+* Type-safe development with TypeScript
+
+---
+
+## Conclusion
+
+This project represents a **complete, production-ready full-stack system**, demonstrating practical experience with frontend development, backend architecture, database modeling, and deployment workflows. It is suitable for academic evaluation, professional portfolios, and technical interviews.
+
+```
 ```
