@@ -124,7 +124,7 @@ function App() {
 
 
 const handleReorderFromHistory = (order: Order) => {
-  clearCart();
+  // clearCart();
 
   order.items.forEach(orderItem => {
     addItem(
@@ -151,7 +151,7 @@ const handleReorderFromHistory = (order: Order) => {
     menu: [],
   });
 
-  setView('menu');
+  setView('cart');
 };
 
 

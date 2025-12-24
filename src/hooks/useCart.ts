@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { CartItem } from '../types/carts';
 import { calculateCartTotal, getCartItemCount } from '../utils/helper';
 
@@ -7,32 +7,68 @@ export const useCart = () => {
   const [restaurantId, setRestaurantId] = useState<string | null>(null);
   const [restaurantName, setRestaurantName] = useState<string | null>(null);
 
-  /* ---------- Add item ---------- */
-  const addItem = useCallback(
-    (
-      item: Omit<CartItem, 'quantity'>,
-      restId: string,
-      restName: string
-    ) => {
-      setCart(prev => {
-        const existing = prev.find(
-          i => i.menuItemId === item.menuItemId
-        );
+  useEffect(() => {
+    if (cart.length === 0) {
+      setRestaurantId(null);
+      setRestaurantName(null);
+    }
+  }, [cart]);
 
+  /* ---------- Add item ---------- */
+  // const addItem = useCallback(
+  //   (
+  //     item: Omit<CartItem, 'quantity'>,
+  //     restId: string,
+  //     restName: string
+  //   ) => {
+  //     setCart(prev => {
+  //       const existing = prev.find(
+  //         i => i.menuItemId === item.menuItemId
+  //       );
+
+  //       if (existing) {
+  //         return prev.map(i =>
+  //           i.menuItemId === item.menuItemId
+  //             ? { ...i, quantity: i.quantity + 1 }
+  //             : i
+  //         );
+  //       }
+
+  //       const newItem: CartItem = {
+  //         ...item,
+  //         quantity: 1,
+  //       };
+
+  //       return [...prev, newItem];
+  //     });
+
+  //     if (!restaurantId) {
+  //       setRestaurantId(restId);
+  //       setRestaurantName(restName);
+  //     }
+  //   },
+  //   [restaurantId]
+  // );
+
+  const addItem = useCallback(
+    (item: CartItem, restId: string, restName: string) => {
+      if (restaurantId && restaurantId !== restId) {
+        alert(
+          'You can only order from one restaurant at a time. Clear the cart to continue.'
+        );
+        return;
+      }
+
+      setCart(prev => {
+        const existing = prev.find(i => i.id === item.id);
         if (existing) {
           return prev.map(i =>
-            i.menuItemId === item.menuItemId
+            i.id === item.id
               ? { ...i, quantity: i.quantity + 1 }
               : i
           );
         }
-
-        const newItem: CartItem = {
-          ...item,
-          quantity: 1,
-        };
-
-        return [...prev, newItem];
+        return [...prev, { ...item, quantity: item.quantity || 1 }];
       });
 
       if (!restaurantId) {
