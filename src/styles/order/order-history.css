@@ -1,6 +1,6 @@
 .order-history-container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: auto;
   padding: 32px 16px;
 }
 
@@ -17,11 +17,11 @@
 }
 
 .order-history-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: white;
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
 }
 
 .order-history-header {
@@ -31,8 +31,8 @@
 }
 
 .order-history-header h3 {
-  margin: 0;
   font-size: 18px;
+  font-weight: 600;
 }
 
 .order-history-id {
@@ -40,49 +40,68 @@
   color: #6b7280;
 }
 
-.order-status {
-  text-transform: capitalize;
-  font-weight: 600;
-  font-size: 12px;
-  color: #16a34a;
-}
-
-.order-history-items {
-  margin: 12px 0;
-  font-size: 14px;
-  color: #374151;
+.order-history-meta {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-weight: 500;
 }
 
 .order-history-footer {
+  margin-top: 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.order-history-total {
-  font-weight: 700;
+  justify-content: flex-end;
 }
 
 .order-history-reorder-btn {
-  background-color: #ea580c;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #16a34a;
   color: white;
-  border: none;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: 8px;
-  font-weight: 600;
+  border: none;
   cursor: pointer;
 }
 
 .order-history-reorder-btn:hover {
-  background-color: #c2410c;
+  background-color: #15803d;
 }
 
+/* STATUS BADGES */
+.order-status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.order-status-badge.placed,
+.order-status-badge.confirmed {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.order-status-badge.preparing {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.order-status-badge.out_for_delivery {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.order-status-badge.delivered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* EMPTY STATE */
 .order-history-empty {
   text-align: center;
-  padding: 64px;
-  font-size: 18px;
+  margin-top: 80px;
   color: #6b7280;
 }

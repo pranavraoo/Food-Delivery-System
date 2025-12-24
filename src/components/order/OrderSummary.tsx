@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { Order } from '../../types/orders';
 import { ORDER_STATUS_CONFIG } from '../../config/app_config';
-import { useETA } from '../../hooks/useETA';
 import { OrderStatusTracker } from './OrderStatusTracker';
 import { formatPrice } from '../../utils/helper';
 import '../../styles/order/order-summary.css';
@@ -33,19 +32,15 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
   const statusConfig = ORDER_STATUS_CONFIG[order.status];
   const StatusIcon = iconMap[statusConfig.icon as keyof typeof iconMap];
 
-  // ✅ ETA countdown
-  const { minutes, seconds } = useETA(order.etaEndTime);
-
-
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 className="text-4xl font-bold mb-8 text-gray-800">
         Order Status
       </h1>
 
-      {/* Status card */}
+      {/* STATUS CARD */}
       <div className="bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-200 rounded-xl p-8 mb-8 shadow-lg">
-        <div className="flex items-center gap-4 mb-2">
+        <div className="flex items-center gap-4 mb-4">
           <div
             className={`rounded-full p-4 bg-white shadow-md ${statusConfig.color}`}
           >
@@ -57,28 +52,25 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               {statusConfig.label}
             </h2>
             <p className="text-gray-600 text-lg">
-              Order #{order.id}
+              Order #{order._id}
             </p>
           </div>
         </div>
 
-        {/* ETA */}
-        {order.status !== 'delivered' && (
+        {/* ETA — BACKEND DRIVEN */}
+        {order.remainingTime && order.status !== 'delivered' && (
           <p className="order-eta">
-            Arriving in{' '}
-            <strong>
-              {minutes}:{seconds.toString().padStart(2, '0')} min
-            </strong>
+            ETA: {order.remainingTime.minutes}m {order.remainingTime.seconds}s
           </p>
         )}
 
-        {/* IMPORTANT: neutral wrapper for tracker */}
+        {/* STATUS TRACKER */}
         <div className="order-status-section">
           <OrderStatusTracker currentStatus={order.status} />
         </div>
       </div>
 
-      {/* Order details */}
+      {/* ORDER DETAILS */}
       <div className="order-details-card">
         <h3 className="order-details-title">Order Summary</h3>
         <p className="order-details-restaurant">
@@ -90,7 +82,10 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         <div className="order-items">
           {order.items.map(item => (
-            <div key={item.id} className="order-item">
+            <div
+              key={item.menuItemId}
+              className="order-item"
+            >
               <div className="order-item-left">
                 <div className="order-item-image">
                   <img
@@ -125,7 +120,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
         </div>
       </div>
 
-      {/* Order again */}
+      {/* ORDER AGAIN */}
       {order.status === 'delivered' && (
         <button
           onClick={onOrderAgain}

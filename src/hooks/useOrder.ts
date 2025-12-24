@@ -78,7 +78,7 @@
 //   };
 // };
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Order } from '../types/orders';
 import { OrderService } from '../services/orderService';
 
@@ -87,7 +87,7 @@ export const useOrder = () => {
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
 
-  /* ---------- Fetch order history from backend ---------- */
+  /* ---------- Fetch order history (backend) ---------- */
   const fetchOrderHistory = useCallback(async () => {
     setLoadingHistory(true);
     try {
@@ -105,11 +105,9 @@ export const useOrder = () => {
     return order;
   }, []);
 
-  /* ---------- Update status (frontend sync only) ---------- */
-  const updateOrderStatus = useCallback((status: Order['status']) => {
-    setCurrentOrder(prev =>
-      prev ? { ...prev, status } : prev
-    );
+  /* ---------- Replace order (polling sync) ---------- */
+  const replaceCurrentOrder = useCallback((order: Order) => {
+    setCurrentOrder(order);
   }, []);
 
   /* ---------- Clear current order ---------- */
@@ -123,7 +121,8 @@ export const useOrder = () => {
     loadingHistory,
     fetchOrderHistory,
     createOrder,
-    updateOrderStatus,
+    replaceCurrentOrder, // ✅ IMPORTANT
     clearCurrentOrder,
   };
 };
+

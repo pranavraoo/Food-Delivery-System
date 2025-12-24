@@ -17,6 +17,18 @@ import './App.css';
 
 type View = 'restaurants' | 'menu' | 'cart' | 'order' | 'history';
 
+function mapOrderItemToMenuItem(orderItem: any) {
+  return {
+    id: orderItem.menuItemId,       // 👈 CRITICAL
+    menuItemId: orderItem.menuItemId,
+    name: orderItem.name,
+    price: orderItem.price,
+    image: orderItem.image,
+    isVeg: true, // optional / inferred
+  };
+}
+
+
 function App() {
   const [view, setView] = useState<View>('restaurants');
   const [selectedRestaurant, setSelectedRestaurant] =
@@ -37,12 +49,12 @@ function App() {
   orderHistory,
   fetchOrderHistory,
   createOrder,
-  updateOrderStatus,
+  replaceCurrentOrder,
   clearCurrentOrder,
 } = useOrder();
 
   // Time-driven order status
-  useOrderStatus(currentOrder, updateOrderStatus);
+  useOrderStatus(currentOrder, replaceCurrentOrder);
 
   /* ---------- Navigation ---------- */
 
@@ -59,9 +71,21 @@ function App() {
   /* ---------- Cart ---------- */
 
   const handleAddToCart = (item: MenuItem) => {
-    if (!selectedRestaurant) return;
-    addItem(item, selectedRestaurant.id, selectedRestaurant.name);
-  };
+  if (!selectedRestaurant) return;
+  
+  addItem(
+    {
+      id: item._id,
+      menuItemId: item._id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      isVeg: item.isVeg,
+    },
+    selectedRestaurant.id,
+    selectedRestaurant.name
+  );
+};
 
   const handlePlaceOrder = async () => {
   if (!selectedRestaurant || cart.length === 0) return;
@@ -71,21 +95,24 @@ function App() {
     restaurantName: selectedRestaurant.name,
     restaurantApiCategory: selectedRestaurant.apiCategory,
     items: cart.map(item => ({
-      menuItemId: item.id,
+      menuItemId: item.menuItemId,   
       name: item.name,
       price: item.price,
       quantity: item.quantity,
       image: item.image,
     })),
     total,
-    etaEndTime: Date.now() + 30 * 60 * 1000, // temporary (backend ETA next)
+    etaEndTime: Date.now() + 30 * 60 * 1000, // example (backend can override)
   };
+  console.log(payload.items);
+  const order = await OrderService.placeOrder(payload);
 
-  const order = await createOrder(payload);
-
+  createOrder(order);
   clearCart();
   setView('order');
 };
+
+
 
   /* ---------- Order flows ---------- */
 
@@ -95,18 +122,30 @@ function App() {
     setView('restaurants');
   };
 
+
 const handleReorderFromHistory = (order: Order) => {
   clearCart();
 
-  order.items.forEach(item =>
-    addItem(item, order.restaurantId, order.restaurantName)
-  );
+  order.items.forEach(orderItem => {
+    addItem(
+      {
+        id: orderItem.menuItemId,
+        menuItemId: orderItem.menuItemId,
+        name: orderItem.name,
+        price: orderItem.price,
+        image: orderItem.image,
+        isVeg: true, // or infer
+      },
+      order.restaurantId,
+      order.restaurantName
+    );
+  });
 
   setSelectedRestaurant({
     id: order.restaurantId,
     name: order.restaurantName,
     cuisine: order.restaurantApiCategory,
-    apiCategory: order.restaurantApiCategory, // ✅ THIS
+    apiCategory: order.restaurantApiCategory,
     rating: 4.5,
     deliveryTime: '30-40 min',
     menu: [],
@@ -114,6 +153,8 @@ const handleReorderFromHistory = (order: Order) => {
 
   setView('menu');
 };
+
+
 
 
   /* ---------- Render ---------- */

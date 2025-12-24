@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { CartItem } from '../types/carts';
-import { MenuItem } from '../types/restaurants';
 import { calculateCartTotal, getCartItemCount } from '../utils/helper';
 
 export const useCart = () => {
@@ -8,38 +7,69 @@ export const useCart = () => {
   const [restaurantId, setRestaurantId] = useState<string | null>(null);
   const [restaurantName, setRestaurantName] = useState<string | null>(null);
 
-  const addItem = useCallback((item: MenuItem, restId: string, restName: string) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.id === item.id);
-      if (existing) {
-        return prev.map(i => 
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+  /* ---------- Add item ---------- */
+  const addItem = useCallback(
+    (
+      item: Omit<CartItem, 'quantity'>,
+      restId: string,
+      restName: string
+    ) => {
+      setCart(prev => {
+        const existing = prev.find(
+          i => i.menuItemId === item.menuItemId
         );
+
+        if (existing) {
+          return prev.map(i =>
+            i.menuItemId === item.menuItemId
+              ? { ...i, quantity: i.quantity + 1 }
+              : i
+          );
+        }
+
+        const newItem: CartItem = {
+          ...item,
+          quantity: 1,
+        };
+
+        return [...prev, newItem];
+      });
+
+      if (!restaurantId) {
+        setRestaurantId(restId);
+        setRestaurantName(restName);
       }
-      return [...prev, { ...item, quantity: 1 }];
-    });
-    
-    if (!restaurantId) {
-      setRestaurantId(restId);
-      setRestaurantName(restName);
-    }
-  }, [restaurantId]);
+    },
+    [restaurantId]
+  );
 
-  const updateQuantity = useCallback((itemId: string, delta: number) => {
-    setCart(prev => {
-      const updated = prev.map(item => 
-        item.id === itemId 
-          ? { ...item, quantity: Math.max(0, item.quantity + delta) }
-          : item
+  /* ---------- Update quantity ---------- */
+  const updateQuantity = useCallback(
+    (menuItemId: string, delta: number) => {
+      setCart(prev =>
+        prev
+          .map(item =>
+            item.menuItemId === menuItemId
+              ? {
+                  ...item,
+                  quantity: Math.max(0, item.quantity + delta),
+                }
+              : item
+          )
+          .filter(item => item.quantity > 0)
       );
-      return updated.filter(item => item.quantity > 0);
-    });
+    },
+    []
+  );
+
+  /* ---------- Remove item ---------- */
+  const removeItem = useCallback((menuItemId: string) => {
+    setCart(prev =>
+      prev.filter(item => item.menuItemId !== menuItemId)
+    );
   }, []);
 
-  const removeItem = useCallback((itemId: string) => {
-    setCart(prev => prev.filter(item => item.id !== itemId));
-  }, []);
-
+  /* ---------- Clear cart ---------- */
   const clearCart = useCallback(() => {
     setCart([]);
     setRestaurantId(null);

@@ -69,9 +69,10 @@
 // };
 
 
-// src/components/order/OrderHistory.tsx
 import React from 'react';
+import { Clock, RefreshCcw } from 'lucide-react';
 import { Order } from '../../types/orders';
+import { formatPrice } from '../../utils/helper';
 import '../../styles/order/order-history.css';
 
 interface OrderHistoryProps {
@@ -86,7 +87,7 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
   if (orders.length === 0) {
     return (
       <div className="order-history-empty">
-        <h2>Your Orders</h2>
+        <Clock size={48} />
         <p>No past orders yet</p>
       </div>
     );
@@ -94,36 +95,47 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
 
   return (
     <div className="order-history-container">
-      <h2 className="order-history-title">Your Orders</h2>
+      <h1 className="order-history-title">Order History</h1>
 
-      {orders.map(order => (
-        <div key={order._id} className="order-history-card">
-          <div className="order-history-header">
-            <span className="order-history-restaurant">
-              {order.restaurantName}
-            </span>
-            <span className={`order-history-status ${order.status}`}>
-              {order.status}
-            </span>
+      <div className="order-history-list">
+        {orders.map(order => (
+          <div key={order._id} className="order-history-card">
+            <div className="order-history-header">
+              <div>
+                <h3>{order.restaurantName}</h3>
+                <p className="order-history-id">
+                  Order #{order._id.slice(-6)}
+                </p>
+              </div>
+
+              <span
+                className={`order-status-badge ${order.status}`}
+              >
+                {order.status.replace(/_/g, ' ')}
+              </span>
+            </div>
+
+            <div className="order-history-meta">
+              <span>
+                {order.items.length} items
+              </span>
+              <span>
+                {formatPrice(order.total)}
+              </span>
+            </div>
+
+            <div className="order-history-footer">
+              <button
+                className="order-history-reorder-btn"
+                onClick={() => onReorder(order)}
+              >
+                <RefreshCcw size={16} />
+                Reorder
+              </button>
+            </div>
           </div>
-
-          <div className="order-history-meta">
-            <span>Total: ₹{order.total}</span>
-            <br />
-            <span>
-              Date&Time: {new Date(order.createdAt).toLocaleString()}
-            </span>
-          </div>
-
-          <button
-            className="order-history-reorder-btn"
-            onClick={() => onReorder(order)}
-          >
-            Order Again
-          </button>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
-

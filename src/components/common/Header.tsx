@@ -30,8 +30,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Right actions */}
         <div className="header-actions">
           <button
-            onClick={onHistoryClick}
             className="header-history-btn"
+            onClick={onHistoryClick}
           >
             <ClipboardList size={20} />
             <span>Orders</span>

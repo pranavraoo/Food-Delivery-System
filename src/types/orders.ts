@@ -17,6 +17,11 @@ export interface CreateOrderPayload {
 }
 
 /* ---------- BACKEND → FRONTEND ---------- */
+export interface RemainingTime {
+  minutes: number;
+  seconds: number;
+}
+
 export interface Order {
   _id: string;
   restaurantId: string;
@@ -25,12 +30,14 @@ export interface Order {
   items: CartItem[];
   total: number;
   status: OrderStatus;
-  createdAt: number;
-  etaEndTime: number;
+
+  createdAt: string;        // ✅ ISO string (Mongo-safe)
+  etaEndTime: number;       // ✅ timestamp (ms)
+
+  remainingTime?: RemainingTime; // ✅ computed by backend
 }
 
-
-
+/* ---------- UI CONFIG ---------- */
 export interface OrderStatusConfig {
   label: string;
   icon: string;

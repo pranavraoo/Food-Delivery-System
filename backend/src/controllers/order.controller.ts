@@ -6,13 +6,30 @@ import {
 } from '../utils/orderStatus';
 
 /* ---------- Create Order ---------- */
+// export const createOrder = async (req: Request, res: Response) => {
+//   try {
+//     const order = await Order.create(req.body);
+//     return res.status(201).json(order);
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: 'Failed to create order' });
+//   }
+// };
+
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const order = await Order.create(req.body);
+    const payload = { ...req.body };
+
+    delete payload._id;
+    delete payload.id;
+
+    console.log('Clean order payload:', payload);
+
+    const order = await Order.create(payload);
     return res.status(201).json(order);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Failed to create order' });
+  } catch (err: any) {
+    console.error('Order creation failed:', err.message);
+    return res.status(500).json({ message: err.message });
   }
 };
 

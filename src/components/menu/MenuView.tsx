@@ -139,13 +139,15 @@ export const MenuView: React.FC<MenuViewProps> = ({
               <h2 className="menu-category-title">{category}</h2>
 
               <div className="menu-items-grid">
-                {items.map(item => (
-                  <MenuItem
-                    key={item.id}
-                    item={item}
-                    onAdd={() => onAddToCart(item)}
-                  />
-                ))}
+                {menu
+                  .filter(item => item.category === category)
+                  .map(item => (
+                    <MenuItem
+                      key={item._id}
+                      item={item}
+                      onAdd={() => onAddToCart(item)}
+                    />
+                  ))}
               </div>
             </div>
           );

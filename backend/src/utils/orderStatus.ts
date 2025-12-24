@@ -19,9 +19,9 @@ export function resolveOrderStatus(
   const progress = (now - start) / total;
 
   if (progress >= 1) return 'delivered';
-  if (progress >= 0.75) return 'out_for_delivery';
-  if (progress >= 0.4) return 'preparing';
-  if (progress >= 0.15) return 'confirmed';
+  if (progress >= 0.7) return 'out_for_delivery';
+  if (progress >= 0.2) return 'preparing';
+  if (progress >= 0.1) return 'confirmed';
 
   return 'placed';
 }

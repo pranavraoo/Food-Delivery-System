@@ -75,8 +75,28 @@
 import { apiClient as api } from './api';
 import { Order } from '../types/orders';
 
+type PlaceOrderPayload = {
+  restaurantId: string;
+  restaurantName: string;
+  restaurantApiCategory: string;
+  items: {
+    menuItemId: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }[];
+  total: number;
+};
+
 export const OrderService = {
-  create(order: Omit<Order, '_id' | 'createdAt' | 'status'>) {
+  // 🔥 semantic alias
+  placeOrder(payload: PlaceOrderPayload) {
+    return api.post<Order>('/orders', payload);
+  },
+
+  // keep this if you want low-level access
+  create(order: PlaceOrderPayload) {
     return api.post<Order>('/orders', order);
   },
 
@@ -92,5 +112,6 @@ export const OrderService = {
     return api.patch<Order>(`/orders/${id}/status`, { status });
   },
 };
+
 
 

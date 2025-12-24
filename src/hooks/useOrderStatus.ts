@@ -24,20 +24,22 @@
 // };
 
 import { useEffect } from 'react';
+import { Order } from '../types/orders';
 import { OrderService } from '../services/orderService';
 
 export const useOrderStatus = (
-  orderId: string | null,
-  onUpdate: (order: any) => void
+  order: Order | null,
+  onUpdate: (order: Order) => void
 ) => {
   useEffect(() => {
-    if (!orderId) return;
+    if (!order?._id) return;
 
     const interval = setInterval(async () => {
-      const order = await OrderService.getById(orderId);
-      onUpdate(order);
-    }, 5000); // poll backend every 5s
+      const updatedOrder = await OrderService.getById(order._id);
+      onUpdate(updatedOrder);
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [orderId]);
+  }, [order?._id, onUpdate]);
 };
+
