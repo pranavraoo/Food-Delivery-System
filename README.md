@@ -1,4 +1,3 @@
-```markdown
 # Food Delivery Ordering System
 
 ## Overview
@@ -12,44 +11,46 @@ The system follows a **client–server architecture**, using a modern React fron
 ## Key Features
 
 ### Frontend
-- Restaurant listing and discovery  
-- Menu browsing with veg / non-veg classification  
-- Cart management with quantity control  
-- Multi-restaurant cart guard  
-- Order placement and confirmation  
-- Backend-driven order status tracking  
-- Live ETA countdown (minutes and seconds)  
-- Persistent order history with reorder support  
-- Responsive and modular UI  
+
+* Restaurant listing and discovery
+* Menu browsing with veg / non-veg classification
+* Cart management with quantity control
+* Multi-restaurant cart guard
+* Order placement and confirmation
+* Backend-driven order status tracking
+* Live ETA countdown (minutes and seconds)
+* Persistent order history with reorder support
+* Responsive and modular UI
 
 ### Backend
-- RESTful API architecture  
-- MongoDB Atlas integration  
-- Separate collections for restaurants, menu items, and orders  
-- Backend-controlled order lifecycle and ETA resolution  
-- Order persistence and history retrieval  
-- Production-ready build and deployment setup  
+
+* RESTful API architecture
+* MongoDB Atlas integration
+* Separate collections for restaurants, menu items, and orders
+* Backend-controlled order lifecycle and ETA resolution
+* Order persistence and history retrieval
+* Production-ready build and deployment setup
 
 ---
 
 ## Technology Stack
 
-| Layer      | Technologies                          |
-|------------|---------------------------------------|
-| Frontend   | React, TypeScript, Vite               |
-| Backend    | Node.js, Express.js                   |
-| Database   | MongoDB Atlas                         |
-| ODM        | Mongoose                              |
-| Deployment | Render                                |
-| External API | TheMealDB (used for initial seeding) |
+| Layer        | Technologies                              |
+| ------------ | ----------------------------------------- |
+| Frontend     | React, TypeScript, Vite                   |
+| Backend      | Node.js, Express.js                       |
+| Database     | MongoDB Atlas                             |
+| ODM          | Mongoose                                  |
+| Deployment   | Render                                    |
+| External API | TheMealDB (used for initial data seeding) |
 
 ---
 
 ## Project Structure
 
 ### Frontend
-```
 
+```
 frontend/
 ├── components/
 ├── hooks/
@@ -58,12 +59,11 @@ frontend/
 ├── styles/
 ├── App.tsx
 └── main.tsx
-
 ```
 
 ### Backend
-```
 
+```
 backend/
 ├── controllers/
 ├── models/
@@ -72,27 +72,28 @@ backend/
 ├── config/
 ├── server.ts
 └── db.ts
-
-````
+```
 
 ---
 
 ## Setup Instructions
 
 ### Prerequisites
-- Node.js (v18 or later)
-- MongoDB Atlas account
-- Git
+
+* Node.js (v18 or later)
+* MongoDB Atlas account
+* Git
 
 ---
 
 ### Backend Setup
 
 1. Navigate to the backend directory:
+
 ```bash
 cd backend
 npm install
-````
+```
 
 2. Create a `.env` file:
 
@@ -253,5 +254,3 @@ VITE_API_BASE_URL=<backend_live_url>/api
 
 This project represents a **complete, production-ready full-stack system**, demonstrating practical experience with frontend development, backend architecture, database modeling, and deployment workflows. It is suitable for academic evaluation, professional portfolios, and technical interviews.
 
-```
-```
