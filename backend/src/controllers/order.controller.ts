@@ -1,35 +1,76 @@
 import { Request, Response } from 'express';
+import Restaurant from '../models/Restaurant';
 import Order from '../models/Order';
 import {
   resolveOrderStatus,
   getRemainingTime,
 } from '../utils/orderStatus';
 
+function extractEtaMinutes(deliveryTime: string): number {
+  const nums = deliveryTime.match(/\d+/g);
+  if (!nums) return 20;
+
+  const min = Number(nums[0]);
+  const max = Number(nums[1] ?? nums[0]);
+
+  const base = Math.floor(Math.random() * (max - min + 1) + min);
+  const jitter = Math.floor(Math.random() * 1.25) - 0.5; // ±2 min
+
+  return Math.max(base + jitter, 5);
+}
+
 /* ---------- Create Order ---------- */
+
 // export const createOrder = async (req: Request, res: Response) => {
 //   try {
-//     const order = await Order.create(req.body);
+//     const payload = { ...req.body };
+
+//     delete payload._id;
+//     delete payload.id;
+
+//     console.log('Clean order payload:', payload);
+
+//     const order = await Order.create(payload);
 //     return res.status(201).json(order);
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ message: 'Failed to create order' });
+//   } catch (err: any) {
+//     console.error('Order creation failed:', err.message);
+//     return res.status(500).json({ message: err.message });
 //   }
 // };
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const payload = { ...req.body };
+    const {
+      restaurantId,
+      restaurantName,
+      restaurantApiCategory,
+      items,
+      total,
+    } = req.body;
 
-    delete payload._id;
-    delete payload.id;
+    // ✅ FETCH restaurant from DB
+    const restaurant = await Restaurant.findById(restaurantId);
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
 
-    console.log('Clean order payload:', payload);
+    // ✅ USE SEEDED deliveryTime
+    const etaMinutes = extractEtaMinutes(restaurant.deliveryTime);
+    const etaEndTime = Date.now() + etaMinutes * 60 * 1000;
 
-    const order = await Order.create(payload);
-    return res.status(201).json(order);
-  } catch (err: any) {
-    console.error('Order creation failed:', err.message);
-    return res.status(500).json({ message: err.message });
+    const order = await Order.create({
+      restaurantId,
+      restaurantName,
+      restaurantApiCategory,
+      items,
+      total,
+      etaEndTime,
+    });
+
+    res.status(201).json(order);
+  } catch (err) {
+    console.error('❌ Order creation failed:', err);
+    res.status(500).json({ message: 'Failed to create order' });
   }
 };
 
