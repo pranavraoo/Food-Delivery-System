@@ -104,10 +104,10 @@ function App() {
     total,
     etaEndTime: Date.now() + 30 * 60 * 1000, // example (backend can override)
   };
-  console.log(payload.items);
-  const order = await OrderService.placeOrder(payload);
+  console.log('📦 placeOrder clicked');
+  // const order = await OrderService.placeOrder(payload);
 
-  createOrder(order);
+  createOrder(payload);
   clearCart();
   setView('order');
 };
@@ -134,7 +134,7 @@ const handleReorderFromHistory = (order: Order) => {
         name: orderItem.name,
         price: orderItem.price,
         image: orderItem.image,
-        isVeg: true, // or infer
+        isVeg: true, // optional
       },
       order.restaurantId,
       order.restaurantName
